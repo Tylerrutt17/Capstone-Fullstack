@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Tylerrutt17/Capstone-Fullstack#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "finnhub": "^1.2.1",
     "nodemon": "^2.0.4"
   }
 }
