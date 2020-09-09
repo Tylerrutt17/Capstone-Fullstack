@@ -1,0 +1,24 @@
+const mongoose = require('mongoose');
+ 
+const User = require('./user');
+const Portfolio = require('./portfolio');
+const Stock = require('./stock');
+const uri = require('../../config/keys').uri;
+ 
+const connectDb = () => {
+  return (mongoose.connect(uri, { 
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true
+  }));
+};
+ 
+const models = { User, Portfolio, Stock };
+
+exports.connectDb = connectDb;
+exports.models = models;
+
+ 
+// export { connectDb };
+ 
+// export default models;
