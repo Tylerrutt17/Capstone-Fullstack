@@ -47,7 +47,7 @@ router.put('/update/:stockId', async (req, res) => {
 // do a fetch and use the method from API. have express.json
  
 router.delete('/delete/:stockId', async (req, res) => {
-  const stock = await req.context.models.Portfolio.findById(
+  const stock = await req.context.models.Stock.findById(
     req.params.stockId,
   );
  

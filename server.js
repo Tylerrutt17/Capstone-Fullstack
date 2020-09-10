@@ -3,7 +3,9 @@ const app = express();
 const port = 8000;
 const path = require("path");
 const bodyParser = require("body-parser");
+const passport = require("passport");
 
+const users = require("./src/routes/users.js");
 // db
 const {connectDb, models} = require('./src/models/index.js');
 
@@ -45,6 +47,12 @@ app.get('*', function (req, res, next) {
 app.use((error, req, res, next) => {
 return res.status(500).json({ error: error.toString() });
 });
+// // Passport middleware
+app.use(passport.initialize());
+// Passport config
+require("./config/passport")(passport);
+// Routes
+app.use("/src/routes/users", users);
 
 // DB Config
 connectDb().then(async () => {
@@ -116,6 +124,18 @@ const createUsersWithPortfolio = async () => {
 
 //  models.Portfolio.find().then(data=>console.log(data));
 //   createUsersWithPortfolio()
+
+// const stock = await req.context.models.Portfolio.findById(
+//     req.params.stockId,
+//   );
+
+
+
+
+
+
+
+
 
 // installed packages
 // bcryptjs: used to hash passwords before we store them in our database

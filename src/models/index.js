@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const User = require('./user');
 const Portfolio = require('./portfolio');
 const Stock = require('./stock');
-const uri = require('../../config/keys').uri;
+const uri = require('../../config/keys').mongoURI;
  
 const connectDb = () => {
   return (mongoose.connect(uri, { 
