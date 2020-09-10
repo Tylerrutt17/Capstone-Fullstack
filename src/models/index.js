@@ -13,7 +13,7 @@ const connectDb = () => {
   }));
 };
  
-const models = { User, Portfolio, Stock };
+const models = { User:User.User, Portfolio:Portfolio.Portfolio, Stock:Stock.Stock };
 
 exports.connectDb = connectDb;
 exports.models = models;

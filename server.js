@@ -16,13 +16,22 @@ app.use(
       extended: false
     })
   );
-  app.use(bodyParser.json());
+//   app.use(bodyParser.json());
+app.use(express.json());
+
 app.use(express.static(path.join(__dirname, ".", "site")));
 // app.use(express.urlencoded({extended: true}))
 // app.use(expressSession)
 
+// pass models to every route
+app.use(async (req, res, next) => {
+    req.context = {
+      models,
+      bob: await models.User.findByLogin('bob'),
+    };
+    next();
+  });
 
-// require("./api-routes")(app, db);//sets the api
 
 // DB Config
 connectDb().then(async () => {
@@ -31,17 +40,21 @@ connectDb().then(async () => {
     );
   });
 
-// seed DB - FINISH UPDATING THIS WITH THE REQUIRED FIELDS
+//   const message = await req.context.models.Message.create({
+//     text: req.body.text,
+//     user: req.context.me.id,
+//   });
+// seed DB
 const createUsersWithPortfolio = async () => {
     const user1 = new models.User({
-      username: 'bob',
+      name: 'bob',
       email: 'bob@gmail.com',
       password: '1234',
       leader: true,
       followers: 0
     });
    
-    const portfolio1 = new models.Message({
+    const portfolio1 = new models.Portfolio({
       name: 'My first portfolio',
       funds: 1000,
       percent_allocated: 90,
@@ -51,7 +64,7 @@ const createUsersWithPortfolio = async () => {
       user: user1.id,
     });
    
-    const stock1 = new models.Message({
+    const stock1 = new models.Stock({
       stock: 'AAPl',
       avg_price: 250,
       volume: 2,
@@ -61,7 +74,7 @@ const createUsersWithPortfolio = async () => {
       portfolio: portfolio1.id
     });
 
-    const stock2 = new models.Message({
+    const stock2 = new models.Stock({
         stock: 'TSLA',
         avg_price: 100,
         volume: 2,
@@ -71,7 +84,7 @@ const createUsersWithPortfolio = async () => {
         portfolio: portfolio1.id
       });
    
-    const stock3 = new models.Message({
+    const stock3 = new models.Stock({
         stock: 'PRPL',
         avg_price: 200,
         volume: 1,
@@ -88,6 +101,9 @@ const createUsersWithPortfolio = async () => {
     await user1.save();
     await portfolio1.save();
   };
+
+//  models.Portfolio.find().then(data=>console.log(data));
+//   createUsersWithPortfolio()
 
 // installed packages
 // bcryptjs: used to hash passwords before we store them in our database
@@ -107,6 +123,7 @@ const createUsersWithPortfolio = async () => {
 //     if (eraseDatabaseOnSync) {
 //       await Promise.all([
 //         models.User.deleteMany({}),
-//         models.Message.deleteMany({}),
+//         models.Portfolio.deleteMany({}),
+//         models.Stock.deleteMany({}),
 //       ]);
 //     }
