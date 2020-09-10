@@ -19,7 +19,7 @@ router.post("/register", (req, res) => {
     if (!isValid) {
       return res.status(400).json(errors);
     }
-  User.findOne({ email: req.body.email }).then(user => {
+  models.User.findOne({ email: req.body.email }).then(user => {
       if (user) {
         return res.status(400).json({ email: "Email already exists" });
       } else {
@@ -58,7 +58,7 @@ const { errors, isValid } = validateLoginInput(req.body);
 const email = req.body.email;
 const password = req.body.password;
 // Find user by email
-  User.findOne({ email }).then(user => {
+  models.User.findOne({ email }).then(user => {
     // Check if user exists
     if (!user) {
       return res.status(404).json({ emailnotfound: "Email not found" });
