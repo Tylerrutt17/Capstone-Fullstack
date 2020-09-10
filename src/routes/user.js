@@ -18,4 +18,5 @@ router.get('/:userId', async (req, res) => {
 });
  
 // export default router;
-exports.router = router;
+// exports.router = router;
+module.exports = router

@@ -46,7 +46,6 @@ router.put('/update/:portfolioId', async (req, res) => {
 });
 
 // do a fetch and use the method from API. have express.json
- 
 router.delete('/delete/:portfolioId', async (req, res) => {
   const portfolio = await req.context.models.Portfolio.findById(
     req.params.portfolioId,
@@ -60,4 +59,4 @@ router.delete('/delete/:portfolioId', async (req, res) => {
 });
  
 // export default router;
-exports.router = router;
+module.exports = router;

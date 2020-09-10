@@ -7,6 +7,9 @@ const bodyParser = require("body-parser");
 // db
 const {connectDb, models} = require('./src/models/index.js');
 
+// router
+const routes = require('./src/routes/index.js')
+
 // const eS = require('express-session')
 // const expressSession = eS(secretInfo().secret)
 
@@ -31,7 +34,17 @@ app.use(async (req, res, next) => {
     };
     next();
   });
-
+app.use('/session', routes.Session);
+app.use('/users', routes.User);
+app.use('/portfolios', routes.Portfolio);
+app.use('/stocks', routes.Stock);
+// error handling
+app.get('*', function (req, res, next) {
+    res.status(301).redirect('/not-found');
+  });
+app.use((error, req, res, next) => {
+return res.status(500).json({ error: error.toString() });
+});
 
 // DB Config
 connectDb().then(async () => {
@@ -94,12 +107,11 @@ const createUsersWithPortfolio = async () => {
         portfolio: portfolio1.id
     });
    
+    await user1.save();
+    await portfolio1.save();
     await stock1.save();
     await stock2.save();
     await stock3.save();
-   
-    await user1.save();
-    await portfolio1.save();
   };
 
 //  models.Portfolio.find().then(data=>console.log(data));
