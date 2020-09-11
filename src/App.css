@@ -1,0 +1,107 @@
+.body{
+  background: #1e3c72;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #2a5298, #1e3c72);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #2a5298, #1e3c72); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+html{
+  font-size: calc(4px + 2vmin);
+  background: #1e3c72;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #2a5298, #1e3c72);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #2a5298, #1e3c72); /* W3C, IE 10+/ Edge, Fire*/
+}
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.app-box  {
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  
+}
+
+.App {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#AppBar{
+  min-width: 100%;
+  float: right;
+}
+.btn{
+  float: right;
+}
+#task-top{
+  margin-top: 400px;
+}
+#info-card{
+  width: 30%;
+  margin: 10px;
+  min-height: 200px;
+  min-width: 240px;
+}
+/* #dash-details{
+  display: flex;
+  width: 80%;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
+} */
+.dash{
+  display: flex;
+  width: 85%;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
+}
+.char{
+  width: 80%;
+}
+
+
+@media screen and (min-width: 415px){
+  #dash-details {
+    flex-direction: row;
+
+  }
+}
+#port-ident{
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+#port-chart{
+  height: auto;
+  width: 70%;
+  float: right;
+}
