@@ -4,8 +4,9 @@ const port = 8000;
 const path = require("path");
 const bodyParser = require("body-parser");
 const passport = require("passport");
+const bcrypt = require("bcryptjs");
 
-const users = require("./src/routes/users.js");
+// const users = require("./src/routes/users.js"); changed name to authentication
 // db
 const {connectDb, models} = require('./src/models/index.js');
 
@@ -36,10 +37,19 @@ app.use(async (req, res, next) => {
     };
     next();
   });
+// // Passport middleware
+app.use(passport.initialize());
+// Passport config
+require("./config/passport")(passport);
+// login/register routes - 
+// app.use("/src/routes/users", users);
+
+app.use("/authentication", routes.Authentication);
 app.use('/session', routes.Session);
 app.use('/users', routes.User);
 app.use('/portfolios', routes.Portfolio);
 app.use('/stocks', routes.Stock);
+app.use('/test', routes.Test);
 // error handling
 app.get('*', function (req, res, next) {
     res.status(301).redirect('/not-found');
@@ -47,12 +57,6 @@ app.get('*', function (req, res, next) {
 app.use((error, req, res, next) => {
 return res.status(500).json({ error: error.toString() });
 });
-// // Passport middleware
-app.use(passport.initialize());
-// Passport config
-require("./config/passport")(passport);
-// Routes
-app.use("/src/routes/users", users);
 
 // DB Config
 connectDb().then(async () => {
@@ -66,11 +70,27 @@ connectDb().then(async () => {
 //     user: req.context.me.id,
 //   });
 // seed DB
+
+const createUser = async () => {
+    let pswrd = await bcrypt.hash('1234', 10)
+    console.log(pswrd)
+    const user2 = new models.User({
+        name: 'David',
+        email: 'd@gmail.com',
+        password: pswrd,
+        leader: true,
+        followers: 0
+      });
+      await user2.save();
+}
+// createUser()
+
 const createUsersWithPortfolio = async () => {
+    
     const user1 = new models.User({
       name: 'bob',
       email: 'bob@gmail.com',
-      password: '1234',
+      password: pswrd,
       leader: true,
       followers: 0
     });

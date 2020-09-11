@@ -9,7 +9,7 @@ const validateLoginInput = require("../validation/login");
 // Load User model
 const { models } = require('../models/index.js');
 
-// @route POST api/users/register
+// @route POST authentication/register
 // @desc Register user
 // @access Public
 router.post("/register", (req, res) => {
@@ -66,6 +66,7 @@ const password = req.body.password;
 // Check password
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
+      // if (user.password === password) {
         // User matched
         // Create JWT Payload
         const payload = {
