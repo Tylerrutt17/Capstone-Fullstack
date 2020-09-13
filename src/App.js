@@ -6,6 +6,7 @@ import Automation from "./components/Automation";
 import Dashboard from "./components/Dashboard";
 import Portfolio from "./components/Portfolio";
 import Taskbar from "./components/Taskbar";
+import Social from './components/Social';
 
 function App() {
   const testImg = [
@@ -34,7 +35,7 @@ function App() {
             <Automation />
           </Route>
           <Route path="/social">
-            <Taskbar />
+            <Social/>
           </Route>
           {/* default route needs to go at bottom of switch */}
           <Route path="/">
