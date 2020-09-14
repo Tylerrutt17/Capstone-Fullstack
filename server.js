@@ -5,6 +5,8 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
+// functions
+const updatePricing = require("./src/action/prices/scheduledUpdate")
 
 // const users = require("./src/routes/users.js"); changed name to authentication
 // db
@@ -67,6 +69,9 @@ connectDb().then(async () => {
       console.log(`Listening on port ${port}!`),
     );
   });
+
+  // update pricing
+  updatePricing() 
 
 //   const message = await req.context.models.Message.create({
 //     text: req.body.text,
@@ -154,21 +159,6 @@ const createUsersWithPortfolio = async () => {
     await stock2.save();
     await stock3.save();
   };
-
-//  models.Portfolio.find().then(data=>console.log(data));
-//   createUsersWithPortfolio()
-
-// const stock = await req.context.models.Portfolio.findById(
-//     req.params.stockId,
-//   );
-
-
-
-
-
-
-
-
 
 // installed packages
 // bcryptjs: used to hash passwords before we store them in our database

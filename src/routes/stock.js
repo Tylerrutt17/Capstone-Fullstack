@@ -1,6 +1,5 @@
-// import { Router } from 'express';
-const { Router } = require('express');
 
+const { Router } = require('express');
 const router = Router();
 
 //  return all Stocks saved in the database
@@ -24,9 +23,8 @@ router.post('/', async (req, res) => {
     current_value: req.body.price, //needs to be fetched from an api
     allocation: 0, //needs to be handled by a function
     user: req.context.currentUser.id,
-    portfolio: req.body.portfolio, // needs to handled by a function i.e. active 
+    portfolio: req.body.portfolio, // needs to handled by a function i.e. active
   });
- 
   return res.send(stock);
 });
 // update a stock based on form
@@ -38,26 +36,19 @@ router.put('/update/:stockId', async (req, res) => {
     current_value: req.body.price, //needs to be fetched from an api
     allocation: 0, //needs to be handled by a function
     user: req.context.currentUser.id,
-    portfolio: req.body.portfolio, // needs to handled by a function i.e. active 
+    portfolio: req.body.portfolio, // needs to handled by a function i.e. active
     });
-
     return res.jsonp(stock);
 });
-
 // do a fetch and use the method from API. have express.json
- 
 router.delete('/delete/:stockId', async (req, res) => {
   const stock = await req.context.models.Stock.findById(
     req.params.stockId,
   );
- 
   if (stock) {
     await stock.remove();
   }
- 
   return res.send(stock);
 });
- 
-// export default router;
-// exports.router = router.router;
+
 module.exports = router;
