@@ -1,5 +1,6 @@
 // import { Router } from 'express';
 const { Router } = require('express');
+const returnPrice = require('../action/stock/returnPrice').fetchPrice
 
  
 const router = Router();
@@ -34,10 +35,24 @@ router.get('/:ticker/:date', async (req, res) => {
   });
 //  create a new price
 router.post('/', async (req, res) => {
+    // get curr price
+    returnPrice(req.body.ticker, (response) => {
+        getPrice(response.o)
+    })
+    const getPrice = (open) => {
+        return open
+    }
+    // grab previous price
+    
   const price = await req.context.models.Prices.create({
     ticker: req.body.ticker,
-    prevPrice: req.body.funds, // db fetch command
-    currPrice: req.body.portfolio, // api call
+    prevPrice: 0, // db fetch command
+    // pseudo logic -
+    // find prices by id 
+    // if there are prices for this id, grab last one
+    // else prevPrice is current Price
+    currPrice: getPrice(req.body.ticker), // api call
+    // 
     last_update: new Date(),
   });
  

@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 let historySchema = new mongoose.Schema({
     totalFunds: {
         Number,
-        required: true,
     },
     date: {
         type: Date,
