@@ -13,16 +13,23 @@ const fetchPrice = (ticker, callback) => {
 }
 // example call
 fetchPrice("AAPL", (response) => {
-    console.log(response);
+    // console.log(response);
+    getPrice(response.o)
 })
 
-// const returnTotalPrice = async (symbol, units ) => {
-//     fetchPrice(symbol, (response) => { 
-//         // console.log(units * response.pc)
-//         units * response.pc
-//      })
-// }
-// console.log(returnTotalPrice('AAPL', 3))
+const getPrice = (open) => {
+    return open
+}
+const returnPrice = (symbol) => {
+    fetchPrice(symbol, (response) => {
+        // console.log(response);
+        data = response
+        return response.o
+        // getPrice(response.o)
+    })
+}
+console.log(returnPrice("AAPL"))
+
 
 
 
