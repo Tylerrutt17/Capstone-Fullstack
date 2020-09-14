@@ -5,6 +5,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
+var schedule = require('node-schedule') // responsible for the timing in which rebalancing of stocks would take place each day. (9:30am est)
 
 // const users = require("./src/routes/users.js"); changed name to authentication
 // db
