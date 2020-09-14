@@ -50,6 +50,7 @@ app.use('/users', routes.User);
 app.use('/portfolios', routes.Portfolio);
 app.use('/stocks', routes.Stock);
 app.use('/test', routes.Test);
+app.use('/history', routes.History)
 // error handling
 app.get('*', function (req, res, next) {
     res.status(301).redirect('/not-found');
