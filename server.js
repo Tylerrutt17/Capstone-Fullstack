@@ -51,6 +51,8 @@ app.use('/portfolios', routes.Portfolio);
 app.use('/stocks', routes.Stock);
 app.use('/test', routes.Test);
 app.use('/history', routes.History)
+app.use('/prices', routes.Prices)
+
 // error handling
 app.get('*', function (req, res, next) {
     res.status(301).redirect('/not-found');
@@ -71,6 +73,16 @@ connectDb().then(async () => {
 //     user: req.context.me.id,
 //   });
 // seed DB
+// const createPricesHistory =  async ()=> {
+//     const prices = new models.User({
+//         name: 'David',
+//         email: 'd@gmail.com',
+//         password: pswrd,
+//         leader: true,
+//         followers: 0
+//       });
+//       await user2.save();
+// }
 
 const createUser = async () => {
     let pswrd = await bcrypt.hash('1234', 10)

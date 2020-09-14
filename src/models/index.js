@@ -15,7 +15,7 @@ const connectDb = () => {
   }));
 };
  
-const models = { User:User.User, Portfolio:Portfolio.Portfolio, Stock:Stock.Stock, Prices:Prices.Prices, History:History.History };
+const models = { User:User.User, Portfolio:Portfolio.Portfolio, Stock:Stock.Stock, Prices:Prices.Prices, History:History.History};
 
 exports.connectDb = connectDb;
 exports.models = models;
