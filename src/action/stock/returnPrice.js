@@ -1,23 +1,37 @@
+const finnhub = require('finnhub');
 const finnKey = require('../../../config/keys.js').finnKey
 
-const returnPrice = (symbol) => {
+const api_key = finnhub.ApiClient.instance.authentications['api_key'];
+api_key.apiKey = finnKey
+const finnhubClient = new finnhub.DefaultApi()
 
-  const socket = new WebSocket(`wss://ws.finnhub.io?token=${finnKey}`);
 
-  // Connection opened -> Subscribe
-  socket.addEventListener('open', function (event) {
-      socket.send(JSON.stringify({'type':'subscribe', 'symbol': symbol}))
-      // socket.send(JSON.stringify({'type':'subscribe', 'symbol': 'BINANCE:BTCUSDT'}))
-      // socket.send(JSON.stringify({'type':'subscribe', 'symbol': 'IC MARKETS:1'}))
-  });
-
-  // Listen for messages
-  socket.addEventListener('message', function (event) {
-      console.log('Message from server ', event.data);
-  });
-
-  // Unsubscribe
-  var unsubscribe = function(symbol) {
-      socket.send(JSON.stringify({'type':'unsubscribe','symbol': symbol}))
-  }
+const fetchPrice = (ticker, callback) => {
+    finnhubClient.quote(ticker, (error, data, response) => {
+        return callback(data);
+    });
 }
+// example call
+fetchPrice("AAPL", (response) => {
+    console.log(response);
+})
+
+// const returnTotalPrice = async (symbol, units ) => {
+//     fetchPrice(symbol, (response) => { 
+//         // console.log(units * response.pc)
+//         units * response.pc
+//      })
+// }
+// console.log(returnTotalPrice('AAPL', 3))
+
+
+
+module.exports = {
+    fetchPrice,
+    // returnTotalPrice
+}
+
+// // Stock candles
+// finnhubClient.stockCandles("AAPL", "D", 1590988249, 1591852249, {}, (error, data, response) => {
+//     console.log(data)
+// });
