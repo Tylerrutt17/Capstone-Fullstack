@@ -19,7 +19,7 @@ fetchPrice("AAPL", (response) => {
 
 const getPrice = (open) => {
     return open
-}
+}   
 
 module.exports = {
     fetchPrice,

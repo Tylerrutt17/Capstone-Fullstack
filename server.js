@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname, ".", "site")));
 app.use(async (req, res, next) => {
     req.context = {
       models,
-      bob: await models.User.findByLogin('bob'),
+      currentUser: await models.User.findByLogin('bob'),
     };
     next();
   });
@@ -104,8 +104,6 @@ const createUser = async () => {
 // createUser()
 
 const createUsersWithPortfolio = async () => {
-    
-    ç
    
     const portfolio1 = new models.Portfolio({
       name: 'My first portfolio',

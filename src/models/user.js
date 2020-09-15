@@ -23,7 +23,11 @@ let userSchema = new mongoose.Schema(
     followers: {
         type: Number,
         required: true,
-    }
+    },
+    portfolios: {
+      type: Array,
+      required: true 
+    },
     }, { timestamps: true },
     );
     // finds a user by their an abstract "login" term, which is the username or email in the end, in the database.

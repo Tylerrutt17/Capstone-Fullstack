@@ -17,15 +17,16 @@ router.get('/:portfolioId', async (req, res) => {
 });
 //  create a new portfolio
 router.post('/', async (req, res) => {
-  const portfolio = await req.context.models.Portfolio.create({
-    name: req.body.name,
-    user: req.context.currentUser.id,
-    funds: 0,
-    percent_allocated: 0,
-    active: false,
-    asset_num: 0,
-    last_rebalance: new Date(),
-  });
+  // needs to be updated
+  // const portfolio = await req.context.models.Portfolio.create({
+  //   name: req.body.name,
+  //   user: req.context.currentUser.id,
+  //   funds: 0,
+  //   percent_allocated: 0,
+  //   active: false,
+  //   asset_num: 0,
+  //   last_rebalance: new Date(),
+  // });
  
   return res.send(message);
 });
