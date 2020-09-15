@@ -71,7 +71,7 @@ connectDb().then(async () => {
   });
 
   // update pricing
-  updatePricing() 
+//   updatePricing() 
 
 //   const message = await req.context.models.Message.create({
 //     text: req.body.text,
@@ -105,13 +105,7 @@ const createUser = async () => {
 
 const createUsersWithPortfolio = async () => {
     
-    const user1 = new models.User({
-      name: 'bob',
-      email: 'bob@gmail.com',
-      password: pswrd,
-      leader: true,
-      followers: 0
-    });
+    ç
    
     const portfolio1 = new models.Portfolio({
       name: 'My first portfolio',

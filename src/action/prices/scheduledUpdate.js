@@ -38,7 +38,7 @@ const scheduledUpdate = () => {
     // then update the current price with
     const result = await models.Prices.updateOne({ _id: stock.id }, { ticker:stock.ticker, prevPrice: stock.currPrice, currPrice: open })
   };
-  updateStockPrices()
+  // updateStockPrices()
   // var j = schedule.scheduleJob(rule, function(){
   //   console.log('Today is recognized by Rebecca Black!');
   // });
