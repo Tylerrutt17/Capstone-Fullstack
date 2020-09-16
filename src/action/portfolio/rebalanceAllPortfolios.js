@@ -1,4 +1,4 @@
-const { models } = require('../models');
+const { models } = require('../../models');
 const allocate = require('./allocateStock').allocate
 
 const rebalanceAllPortfolios = async () => {
