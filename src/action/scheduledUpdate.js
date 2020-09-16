@@ -1,6 +1,7 @@
 const schedule = require('node-schedule'); // scheduling at times
 const updateStockPrices = require('./prices/updatePrices')
 const updatePortfolioStocks = require('./portfolio/updatePortfolioStocks')
+const updateUserTotalFunds = require('./user/updateUserTotalFunds')
 
 
 const scheduledUpdate = async () => {
@@ -16,8 +17,7 @@ const scheduledUpdate = async () => {
     rule.minute = 30;
     var k = schedule.scheduleJob(rule, async () => {
       await updateStockPrices() // Pull down latest prices and update prices table
-      await updatePortfolioStocks() // Update all stock prices/values/allocations in every portfolio
-      await updatePortfolioHistoryAndValue() // Recalculate each portfolios current value and save previous to history array
+      await updatePortfolioStocks() // Update all stock prices/values/allocations and history/currentValue in every portfolio
       await updateUserTotalFunds() // Recalculate each users total funds
   });
   //var j = schedule.scheduleJob(rule, updateStockPrices)
