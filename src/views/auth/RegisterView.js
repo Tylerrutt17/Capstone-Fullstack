@@ -17,7 +17,7 @@ import Page from 'src/components/Page';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import Axios from 'axios';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,16 +62,7 @@ const RegisterView = () => {
                 leader: Yup.boolean().oneOf([true], 'This field must be checked')
               })
             }
-            onSubmit={async(input,{resetForm}) => {
-              await Axios.post("http://localhost:3000/authentication/register",input)
-              .then(res=>{
-                console.log(res.data)
-              })
-              .catch(err => {  
-                console.log(err);
-              // navigate('/app/dashboard', { replace: true });
-              })
-            }}
+            
           >
             {({
               errors,

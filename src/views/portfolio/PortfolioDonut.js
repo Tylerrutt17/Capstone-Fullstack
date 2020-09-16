@@ -102,6 +102,7 @@ const DonutChart = ({ className, ...rest }) => {
           <Doughnut
             data={data}
             options={options}
+            height='100%'
           />
         </Box>
         <Box

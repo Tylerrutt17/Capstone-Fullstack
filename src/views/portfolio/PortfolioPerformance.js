@@ -12,22 +12,20 @@ import {
   makeStyles,
   colors
 } from '@material-ui/core';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import AreaChart from 'src/mixins/AreaChart';
 
 const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-const PerformanceSummary = ({ className, ...rest }) => {
+const PortfolioPerformance = ({ className, ...rest }) => {
   const classes = useStyles();
   const theme = useTheme();
 
   
   const series = [
     {
-      name: "XYZ MOTORS",
+      name: "Portfolio 1",
       data: [[1, 34], [3.8, 43], [5, 31] , [10, 43], [13, 33], [15, 43], [18, 33] , [20, 52]]
       
     }
@@ -56,14 +54,6 @@ const PerformanceSummary = ({ className, ...rest }) => {
     },
     fill: {
         colors: '#3F51B5',
-      // type: "gradient",
-      // gradient: {
-      //   shadeIntensity: 1,
-      //   inverseColors: false,
-      //   opacityFrom: 0.5,
-      //   opacityTo: 0,
-      //   stops: [0, 90, 100],
-      // },
     },
     yaxis: {
       labels: {
@@ -118,8 +108,8 @@ const PerformanceSummary = ({ className, ...rest }) => {
   );
 };
 
-PerformanceSummary.propTypes = {
+PortfolioPerformance.propTypes = {
   className: PropTypes.string
 };
 
-export default PerformanceSummary;
+export default PortfolioPerformance;

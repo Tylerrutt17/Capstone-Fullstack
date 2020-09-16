@@ -2,6 +2,7 @@ import React from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+import axios from 'axios';
 import {
   Box,
   Button,
@@ -61,7 +62,22 @@ const LoginView = () => {
               touched,
               values
             }) => (
-              <form onSubmit={handleSubmit}>
+              <form onSubmit = {e => {
+                e.preventDefault();
+                const userData = {
+                    email: values.email,
+                    password :values.password
+                };
+                axios
+                    .post("/api/auth/register_login", userData)
+                    .then(res => {
+                        console.log(res);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        console.log(err.response);
+                    });
+            }}>
                 <Box mb={3}>
                   <Typography
                     color="textPrimary"
