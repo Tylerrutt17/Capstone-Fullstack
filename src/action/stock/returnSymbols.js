@@ -10,5 +10,7 @@ const returnSymbols = () => {
     console.log(data)
   });
 }
+// returnSymbols()
+
 
 module.exports = returnSymbols

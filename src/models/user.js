@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const passportLocalMongoose = require('passport-local-mongoose');
 
 let userSchema = new mongoose.Schema(
     {
@@ -23,7 +24,15 @@ let userSchema = new mongoose.Schema(
     followers: {
         type: Number,
         required: true,
-    }
+    },
+    totalFunds: {
+        type: Number,
+        required: true
+    },
+    portfolios: {
+      type: Array,
+      required: true 
+    },
     }, { timestamps: true },
     );
     // finds a user by their an abstract "login" term, which is the username or email in the end, in the database.
@@ -45,6 +54,7 @@ let userSchema = new mongoose.Schema(
       userSchema.pre('remove', function(next) {
         this.model('Stock').deleteMany({ user: this._id }, next);
       });
+// UserSchema.plugin(passportLocalMongoose);
 let User = mongoose.model("User", userSchema)
 
 exports.User = User;

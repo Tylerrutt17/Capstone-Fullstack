@@ -19,19 +19,7 @@ fetchPrice("AAPL", (response) => {
 
 const getPrice = (open) => {
     return open
-}
-const returnPrice = (symbol) => {
-    fetchPrice(symbol, (response) => {
-        // console.log(response);
-        data = response
-        return response.o
-        // getPrice(response.o)
-    })
-}
-console.log(returnPrice("AAPL"))
-
-
-
+}   
 
 module.exports = {
     fetchPrice,
