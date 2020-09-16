@@ -86,13 +86,40 @@ router.delete('/delete/:portfolioId', async (req, res) => {
 // when a user follows a 
 router.get('/follow/:portfolioId', async (req, res) => {
   try {
+
+      const TotalDeposit = 100 // will need to be passed in with HOW MUCH they are designating to this portfolio
+      const newStocks = [] // as current values of the stock are updated they will passed into here.
+
       let portfolio = await req.context.models.Portfolio.findById(req.params.portfolioId);
-      res.send(portfolio)
+      portfolio.tickers.forEach(stock => {
+        fetchPrice(stock.symbol, (response) => {
+            // calculate 
+            const allocationCost = TotalDeposit / 100 * stock.allocation // Gets the allocated amount for this stock based on Leaders Allocation
+            const units = allocationCost / response.c  // total allocation cost divided by the current price of the stock.
+            newStocks.push({symbol : stock.symbol, allocation: stock.allocation, currValue: allocationCost, units: units})
+        })
+      })
+
+      while (newStocks.length == portfolio.tickers.length) {
+          // once it reaches however many stocks are in the leaders portfolio (meaning all stocks have been updated) then create new portfolio ref.
+          Console.log("Loaded All Of Em.")
+          // const newPort = new models.Portfolio({
+          //   name: `Copy of ${portfolio.name}`,
+          //   active: true,
+          //   useableFunds: 0,
+          //   startingValue: 1000,
+          //   currentValue: 1000
+          // })
+          res.send("Success")
+          //await newPort.save()
+          break
+      }
+
+      //res.send(portfolio)
   } catch (err) {
       console.log(err)
       res.send("Can't Find Portfolio")
   }
-  
 })
 
 router.post('/new-portfolio', async (req, res) => {
