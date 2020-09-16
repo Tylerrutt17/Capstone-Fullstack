@@ -15,6 +15,16 @@ router.get('/:portfolioId', async (req, res) => {
   );
   return res.send(portfolio);
 });
+
+// return a portfolio history over the last x days
+router.get('/history/:portfolioId', async (req, res) => {
+    let interval = req.query.days;
+    let portfolio = await req.context.models.Portfolio.findById(req.params.portfolioId);
+    interval = Math.min(portfolio.history.length, req.query.days)
+    rv = portfolio.history.slice(0).slice(-interval)
+  return res.send(rv)
+})
+
 //  create a new portfolio
 router.post('/', async (req, res) => {
   // needs to be updated

@@ -1,4 +1,4 @@
-const returnSymbols = require('../stock/returnSymbols')
+// const returnSymbols = require('../stock/returnSymbols')
 const { models}  = require('../../models');
 const fetchPrice = require('../stock/returnPrice').fetchPrice
 
@@ -7,14 +7,14 @@ bigStocks = ["AAPL", "TSLA", "MSFT", "GOOG", "FB", "V", "JNJ", "WMT", "TSLA", "P
 
 // goal - seed biggest 50 stocks by mcap into prices table. If user wants to add non seeded stock, check if supported and add to table
 const seedPrices = async () => {
-    bigStocks.forEach(stock => {
-        fetchPrice(stock, (response) => {
+    bigStocks.forEach(async stock => {
+        fetchPrice(stock, async (response) => {
             // console.log(stock, response.o)
-            seedOne(stock, response.o)
+        addStock(stock, response.o)
         })
     })
 }
-const seedOne = async (stock, price) => {
+const addStock = async (stock, price) => {
     await new models.Prices({
         ticker: stock,
         prevPrice: price,
@@ -22,6 +22,6 @@ const seedOne = async (stock, price) => {
         lastUpdate: new Date(),
         }).save
   };
-seedPrices()
+// seedPrices()
 
-module.exports = seedPrices
+module.exports = {seedPrices, addStock}

@@ -1,4 +1,8 @@
 const express = require('express');
+const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
+const mongoose = require("mongoose");
+const cors = require('cors');
 const app = express();
 const port = 8000;
 const path = require("path");
@@ -7,8 +11,10 @@ const passport = require("passport");
 const bcrypt = require("bcryptjs");
 // functions
 const updatePricing = require("./src/action/prices/scheduledUpdate")
+const fetchPrice = require('./src/action/stock/returnPrice').fetchPrice
+const addStock = require('./src/action/prices/seedPrices').addStock
 
-// const users = require("./src/routes/users.js"); changed name to authentication
+
 // db
 const {connectDb, models} = require('./src/models/index.js');
 
@@ -17,6 +23,9 @@ const routes = require('./src/routes/index.js')
 
 // const eS = require('express-session')
 // const expressSession = eS(secretInfo().secret)
+
+// cors middlware
+app.use(cors());
 
 // Bodyparser middleware
 app.use(
@@ -29,7 +38,19 @@ app.use(express.json());
 
 app.use(express.static(path.join(__dirname, ".", "site")));
 // app.use(express.urlencoded({extended: true}))
-// app.use(expressSession)
+
+// Express Session
+app.use(
+    session({
+        secret: "very secret this is", // change this?
+        resave: false,
+        saveUninitialized: true,
+        store: new MongoStore({ mongooseConnection: mongoose.connection })
+    })
+);
+// // Passport middleware
+app.use(passport.initialize()); 
+app.use(passport.session()); 
 
 // pass models to every route
 app.use(async (req, res, next) => {
@@ -39,14 +60,16 @@ app.use(async (req, res, next) => {
     };
     next();
   });
-// // Passport middleware
-app.use(passport.initialize());
-// Passport config
-require("./config/passport")(passport);
-// login/register routes - 
-// app.use("/src/routes/users", users);
 
-app.use("/authentication", routes.Authentication);
+// JWT Passport config
+// require("./config/passport")(passport);
+// passport.serializeUser(models.User.serializeUser()); 
+// passport.deserializeUser(models.User.deserializeUser()); 
+// const LocalStrategy = require('passport-local').Strategy; 
+// passport.use(new LocalStrategy(models.User.authenticate()));
+
+// app.use("/authentication", routes.Authentication);
+app.use("/auth", routes.Auth);
 app.use('/session', routes.Session);
 app.use('/users', routes.User);
 app.use('/portfolios', routes.Portfolio);
@@ -88,6 +111,49 @@ connectDb().then(async () => {
 //       });
 //       await user2.save();
 // }
+
+
+const createPortfolioAndUser = async () => {
+    await Promise.all([
+        models.User.deleteMany({}),
+        models.Portfolio.deleteMany({})
+    ])
+    let pswrd = await bcrypt.hash('1234', 10)
+    console.log(pswrd)
+    const user1 = new models.User({
+        name: 'David',
+        email: 'd@gmail.com',
+        password: pswrd,
+        leader: true,
+        followers: 0,
+        totalFunds: 1500,
+        portfolios: []
+      });
+      await user1.save();
+    
+    const portfolio = new models.Portfolio({
+        name: 'My new portfolio',
+        active: true,
+        usableFunds: 0,
+        startingValue: 1000,
+        currentValue: 1500,
+        currentAllcoation: 100,
+        tickers: [{symbol : 'TSLA', allocation: 66.6, currValue: 1000, units: 10}, {symbol : 'AMZN', allocation: 33.3, currValue: 500, units: 12}],
+        history: [{date : new Date("2016-05-18T16:00:00Z"), value: 1000}, {date : new Date("2016-05-19T16:00:00Z"), value: 1500}],
+        user: user1.id,
+      });
+    await portfolio.save()
+
+    await models.User.updateOne({ _id: user1._id },
+        { portfolios: portfolio._id })
+
+    let p = await models.Portfolio.findById(portfolio._id);
+    let currentTickers = p.tickers
+    await models.Portfolio.updateOne({ _id: portfolio._id },
+        { tickers: [...currentTickers.filter(t=>t.symbol!="TSLA"),{symbol : 'TSLA', allocation: 66.6, currValue: 1000, units: 20}]})
+}
+// createPortfolioAndUser()
+
 
 const createUser = async () => {
     let pswrd = await bcrypt.hash('1234', 10)
@@ -151,7 +217,6 @@ const createUsersWithPortfolio = async () => {
     await stock2.save();
     await stock3.save();
   };
-
 // installed packages
 // bcryptjs: used to hash passwords before we store them in our database
 // body-parser: used to parse incoming request bodies in a middleware

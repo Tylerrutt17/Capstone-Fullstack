@@ -7,6 +7,10 @@ let portfolioSchema = new mongoose.Schema({
         type: Boolean,
         required: true,
     },
+    usableFunds: {
+        type: Number,
+        required: true,
+    },
     startingValue: { // What
         type: Number,
         required: true
@@ -20,7 +24,7 @@ let portfolioSchema = new mongoose.Schema({
         symbol: String,
         allocation: Number,
         currValue: Number,
-        required: true
+        units: Number,
     }],
     history: [{
         date: Date,
