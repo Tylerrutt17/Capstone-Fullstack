@@ -83,6 +83,18 @@ router.delete('/delete/:portfolioId', async (req, res) => {
   return res.send(portfolio);
 });
 
+// when a user follows a 
+router.get('/follow/:portfolioId', async (req, res) => {
+  try {
+      let portfolio = await req.context.models.Portfolio.findById(req.params.portfolioId);
+      res.send(portfolio)
+  } catch (err) {
+      console.log(err)
+      res.send("Can't Find Portfolio")
+  }
+  
+})
+
 router.post('/new-portfolio', async (req, res) => {
 
   let userId = req.context.currentUser

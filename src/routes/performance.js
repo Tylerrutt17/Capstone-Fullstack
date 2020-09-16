@@ -79,24 +79,6 @@ router.get('/history/:portfolioId', async (req, res) => {
   return res.send(rv)
 })
 
-
-router.get('/follow/:portfolioId', async (req, res) => {
-    try {
-        let portfolio = await req.context.models.Portfolio.findById(req.params.portfolioId);
-        res.send(portfolio)
-    } catch (err) {
-        console.log(err)
-        res.send("Can't Find Portfolio")
-    }
-    
-})
-
-// const currentUser = await req.context.models.User.findById(
-//     req.context.currentUser.id,
-//   );
-//   return res.send(user);
-
-// export default router;
 module.exports = router;
 
   
