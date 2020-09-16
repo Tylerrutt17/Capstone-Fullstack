@@ -1,15 +1,19 @@
 const mongoose = require('mongoose')
 
-let stockSchema = new mongoose.Schema({
-    stock: {
-        type: String,
+let leaderSchema = new mongoose.Schema({
+    tickers: {
+        type: Array,
         required: true,
     },
-    avg_price: {
-        type: Number,
+    target_allocations: {
+        type: Array,
         required: true,
     },
     volume: {
+        type: Number,
+        required: true,
+    },
+    previous_price: {
         type: Number,
         required: true,
     },
@@ -20,11 +24,8 @@ let stockSchema = new mongoose.Schema({
     allocation: {
         type: Number,
         required: true,
-    },
-    user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-    portfolio:  {type: mongoose.Schema.Types.ObjectId, ref: 'Portfolio'},
-    }, { timestamps: true })
+    }
+})
 const Stock = mongoose.model("Stock", stockSchema)
 
 exports.Stock = Stock
-

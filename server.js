@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, ".", "site")));
 app.use(async (req, res, next) => {
     req.context = {
       models,
-      bob: await models.User.findByLogin('bob'),
+      bob: await models.User.findByLogin('David'),
     };
     next();
   });
@@ -49,8 +49,11 @@ app.use("/authentication", routes.Authentication);
 app.use('/session', routes.Session);
 app.use('/users', routes.User);
 app.use('/portfolios', routes.Portfolio);
-app.use('/stocks', routes.Stock);
 app.use('/test', routes.Test);
+app.use('/history', routes.History)
+app.use('/prices', routes.Prices)
+app.use('/performance', routes.Performance)
+
 // error handling
 app.get('*', function (req, res, next) {
     res.status(301).redirect('/not-found');
@@ -71,6 +74,16 @@ connectDb().then(async () => {
 //     user: req.context.me.id,
 //   });
 // seed DB
+// const createPricesHistory =  async ()=> {
+//     const prices = new models.User({
+//         name: 'David',
+//         email: 'd@gmail.com',
+//         password: pswrd,
+//         leader: true,
+//         followers: 0
+//       });
+//       await user2.save();
+// }
 
 const createUser = async () => {
     let pswrd = await bcrypt.hash('1234', 10)
