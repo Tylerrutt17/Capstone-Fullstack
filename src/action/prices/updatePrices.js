@@ -8,8 +8,8 @@ const updateStockPrices = async () => {
     // Observe Each Stock Object
     const docs = await models.Prices.find()
     docs.forEach( async (stock)=> {
-        await fetchPrice(stock.ticker, (response) => {
-          await updateSpecificStockPrice(response.c, stock)
+        await fetchPrice(stock.ticker, async (response, err) => {
+          await updateSpecificStockPrice(response.o, stock)
         })
     })
 }

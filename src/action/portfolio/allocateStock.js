@@ -13,8 +13,8 @@ const sum = (array) => {
     }, 0);
     return sum
 }
-// needs work
-const allocateStock = async (portfolioId, allocation, symbol) => {
+// needs work - want this to be an internal function only. should do something different that "allocate"
+const buyStock = async (portfolioId, allocation, symbol) => {
     // determine if stock price is seeded, if not seeded
     const prices = await models.Prices.find()
     if (!prices.find(price => price.ticker === 'symbol')) {
@@ -47,6 +47,7 @@ const allocateStock = async (portfolioId, allocation, symbol) => {
     return p
 }
 const allocate = async (portfolioId, allocation, symbol) => {
+    console.log("allocating stock")
     // determine if stock price is seeded, if not seeded
     const prices = await models.Prices.find()
     let p = await models.Portfolio.findById(portfolioId);
@@ -59,12 +60,15 @@ const allocate = async (portfolioId, allocation, symbol) => {
     let fundResult = p.usableFunds - newCurrValue
     if (fundResult < 0) return "not possible"
     let currentTickers = p.tickers
+    console.log(currentTickers)
     // if stock is in portfolio
     if (p.tickers.find( ({symbol}) => symbol === symbol )) {
         let ticker = currentTickers.find(t=>t.symbol==symbol)
+        console.log(ticker)
         // deallocate
         // update usableFunds
         let fundRestore = ticker.currValue + p.usableFunds
+        console.log(fundRestore)
         await models.Portfolio.updateOne({ _id: portfolioId },
             { usableFunds: fundRestore})
         await models.Portfolio.updateOne({ _id: p._id },
@@ -85,8 +89,9 @@ const allocate = async (portfolioId, allocation, symbol) => {
     // update usableFunds
     await models.Portfolio.updateOne({ _id: portfolioId },
         { usableFunds: fundResult})
+        console.log("stock allocated")
 }
     
 
 
-module.exports = {allocateStock, allocate}
+module.exports = {buyStock, allocate}

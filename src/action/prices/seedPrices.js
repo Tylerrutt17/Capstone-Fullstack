@@ -3,7 +3,7 @@ const { models}  = require('../../models');
 const fetchPrice = require('../stock/returnPrice').fetchPrice
 
 
-bigStocks = ["AAPL", "TSLA", "MSFT", "GOOG", "FB", "V", "JNJ", "WMT", "PG", "MA", "JPM", "NVDA", "HD", "UNH", "VZ", "DIS", "ADBE", "CRM", "BAC", "KO", "PYPL", "MRK", "NFLX"]
+bigStocks = ["AMZN", "AAPL", "TSLA", "MSFT", "GOOG", "FB", "V", "JNJ", "WMT", "PG", "MA", "JPM", "NVDA", "HD", "UNH", "VZ", "DIS", "ADBE", "CRM", "BAC", "KO", "PYPL", "MRK", "NFLX"]
 
 // goal - seed biggest 50 stocks by mcap into prices table. If user wants to add non seeded stock, check if supported and add to table
 const seedPrices = async () => {
@@ -18,7 +18,7 @@ const addStock = async (stock, price) => {
     const p = await new models.Prices({
         ticker: stock,
         prevPrice: price,
-        currPrice: 0,
+        currPrice: price,
         lastUpdate: new Date(),
         })
     await p.save()

@@ -10,10 +10,11 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
 // functions
-const test = require('./src/action/portfolio/updatePortfolioStocks')
+// const test = require('./src/action/portfolio/updatePortfolioStocks').test
 const fetchPrice = require('./src/action/stock/returnPrice').fetchPrice
 const addStock = require('./src/action/prices/seedPrices').addStock
 const seedPrices = require('./src/action/prices/seedPrices').seedPrices
+const scheduledUpdate = require('./src/action/scheduledUpdate')
 
 
 // db
@@ -113,8 +114,6 @@ connectDb().then(async () => {
 //       await user2.save();
 // }
 
-// seedPrices()
-
 const createPortfolioAndUser = async () => {
     await Promise.all([
         models.User.deleteMany({}),
@@ -140,7 +139,7 @@ const createPortfolioAndUser = async () => {
         startingValue: 1000,
         currentValue: 1500,
         currentAllcoation: 100,
-        tickers: [{symbol : 'TSLA', allocation: 66.6, currValue: 1000, units: 10}, {symbol : 'AMZN', allocation: 33.3, currValue: 500, units: 12}],
+        tickers: [{symbol : 'TSLA', allocation: 66.6, currValue: 1000, units: 10}, {symbol : 'AMZN', allocation: 33.3, desiredAllocation: 33.3, currValue: 500, units: 12}],
         history: [{date : new Date("2016-05-18T16:00:00Z"), value: 1000}, {date : new Date("2016-05-19T16:00:00Z"), value: 1500}],
         user: user1.id,
       });
@@ -152,7 +151,7 @@ const createPortfolioAndUser = async () => {
     let p = await models.Portfolio.findById(portfolio._id);
     let currentTickers = p.tickers
     await models.Portfolio.updateOne({ _id: portfolio._id },
-        { tickers: [...currentTickers.filter(t=>t.symbol!="TSLA"),{symbol : 'TSLA', allocation: 66.6, currValue: 1000, units: 20}]})
+        { tickers: [...currentTickers.filter(t=>t.symbol!="TSLA"),{symbol : 'TSLA', allocation: 66.6, desiredAllocation:66.6, currValue: 1000, units: 20}]})
 }
 // createPortfolioAndUser()
 
@@ -243,5 +242,6 @@ const createUsersWithPortfolio = async () => {
 //     }
 
 
-
+// createPortfolioAndUser()
+scheduledUpdate()
 // test()
