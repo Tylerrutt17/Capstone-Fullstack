@@ -10,7 +10,7 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
 // functions
-const updatePricing = require("./src/action/prices/scheduledUpdate")
+const test = require('./src/action/portfolio/updatePortfolioStocks')
 const fetchPrice = require('./src/action/stock/returnPrice').fetchPrice
 const addStock = require('./src/action/prices/seedPrices').addStock
 
@@ -239,3 +239,4 @@ const createUsersWithPortfolio = async () => {
 //         models.Stock.deleteMany({}),
 //       ]);
 //     }
+// test()
