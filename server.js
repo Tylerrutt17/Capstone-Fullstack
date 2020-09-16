@@ -13,6 +13,7 @@ const bcrypt = require("bcryptjs");
 const test = require('./src/action/portfolio/updatePortfolioStocks')
 const fetchPrice = require('./src/action/stock/returnPrice').fetchPrice
 const addStock = require('./src/action/prices/seedPrices').addStock
+const seedPrices = require('./src/action/prices/seedPrices').seedPrices
 
 
 // db
@@ -112,6 +113,7 @@ connectDb().then(async () => {
 //       await user2.save();
 // }
 
+// seedPrices()
 
 const createPortfolioAndUser = async () => {
     await Promise.all([

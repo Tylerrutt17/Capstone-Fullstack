@@ -13,7 +13,6 @@ const updateAllUsers = async () => {
     const result = docs.forEach( async (user)=> {
         await updateSpecificUser(user)
     })
-    
 }
 
 const updateSpecificUser = async (u) => {
