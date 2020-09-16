@@ -50,20 +50,23 @@ const PerformanceSummary = ({ className, ...rest }) => {
       enabled: false,
     },
     markers: {
-      size: 0
+      size: 2
     },
     title: {
       text: "Stock Price Movement",
       align: "left",
     },
+    colors: ['#4051B5'],
     fill: {
-      type: "gradient",
+      type: 'gradient',
       gradient: {
+        shade: 'dark',
+        gradientToColors: [ '#4051B5'],
         shadeIntensity: 1,
-        inverseColors: false,
-        opacityFrom: 0.5,
-        opacityTo: 0,
-        stops: [0, 90, 100],
+        type: 'horizontal',
+        opacityFrom: 1,
+        opacityTo: 1,
+        stops: [0, 100, 100, 100]
       },
     },
     yaxis: {
@@ -104,7 +107,7 @@ const PerformanceSummary = ({ className, ...rest }) => {
           position="relative"
         >
           <AreaChart
-            series={series}
+            series = {series}
             options={options}
           />
         </Box>

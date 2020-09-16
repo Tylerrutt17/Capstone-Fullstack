@@ -28,8 +28,8 @@ import {
 
 import { Search as SearchIcon } from 'react-feather';
 
-function createData(name, symbol, change24H, carbs, protein) {
-  return { name, symbol, change24H, carbs, protein };
+function createData(name, symbol, change24H, price) {
+  return { name, symbol, change24H, price};
 }
 
 const rows = [

@@ -6,8 +6,16 @@ import StepLabel from '@material-ui/core/StepLabel';
 import StepContent from '@material-ui/core/StepContent';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import Card from '@material-ui/core/Card';
+import Typography from '@material-ui/core/Card';
 import AssetTable from './AssetTable';
+import AllocationSlider from './elements/AllocationSlider';
+import AllocationTable from './AllocationTable';
+import FilledInput from '@material-ui/core/FilledInput';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Grid from '@material-ui/core/Grid';
+
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -34,9 +42,23 @@ function getStepContent(step) {
     case 0:
       return (<AssetTable/>);
     case 1:
-      return ;
+      return (<AllocationTable/>) ;
     case 2:
-      return ;
+      return (<Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems="center"
+      >
+        <Typography>Enter Your New Portfolio Name</Typography>
+        <FormControl fullWidth variant="filled">
+          <InputLabel htmlFor="filled-prtfolio-name">Portfolio Name</InputLabel>
+          <FilledInput
+            id="filled-prtfolio-name"
+          />
+        </FormControl>
+      </Grid>
+      );
     default:
       return 'Unknown step';
   }
@@ -92,9 +114,9 @@ export default function VerticalLinearStepper() {
       </Stepper>
       {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
-          <Card>All steps completed - you&apos;re finished</Card>
+          <Typography>Your Portfolio has been created</Typography>
           <Button onClick={handleReset} className={classes.button}>
-            Reset
+            Save
           </Button>
         </Paper>
       )}

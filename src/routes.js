@@ -3,11 +3,11 @@ import { Navigate } from 'react-router-dom';
 import DashboardLayout from 'src/layouts/DashboardLayout';
 import MainLayout from 'src/layouts/MainLayout';
 import AccountView from 'src/views/account/AccountView';
-import CustomerListView from 'src/views/customer/CustomerListView';
+import LeaderListView from 'src/views/social/index';
 import DashboardView from 'src/views/reports/DashboardView';
 import LoginView from 'src/views/auth/LoginView';
 import NotFoundView from 'src/views/errors/NotFoundView';
-import ProductListView from 'src/views/automation';
+import AutomationStepper from 'src/views/automation';
 import RegisterView from 'src/views/auth/RegisterView';
 import SettingsView from 'src/views/settings/SettingsView';
 
@@ -17,9 +17,9 @@ const routes = [
     element: <DashboardLayout />,
     children: [
       { path: 'account', element: <AccountView /> },
-      { path: 'social', element: <CustomerListView /> },
+      { path: 'social', element: <LeaderListView /> },
       { path: 'dashboard', element: <DashboardView /> },
-      { path: 'automations', element: <ProductListView /> },
+      { path: 'automations', element: <AutomationStepper /> },
       { path: 'settings', element: <SettingsView /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
