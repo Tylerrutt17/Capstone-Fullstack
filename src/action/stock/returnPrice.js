@@ -12,9 +12,9 @@ const fetchPrice = (ticker, callback) => {
     });
 }
 // example call
-fetchPrice("AAPL", (response) => {
+fetchPrice("AAPL", async (response) => {
     // console.log(response);
-    getPrice(response.o)
+    await getPrice(response.o)
 })
 
 const getPrice = (open) => {

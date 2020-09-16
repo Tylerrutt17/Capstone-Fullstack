@@ -1,4 +1,4 @@
-const { models } = require('../models');
+const { models } = require('../../models');
 
 
 const sum = (array) => {
@@ -18,12 +18,13 @@ const updateAllPortfolios = async () => {
 }
 const updateSpecificPortfolio = async (p, prices) => {
 // for each ticker in the portfolio:
+    let allTickers = p.tickers
     p.tickers.forEach(async (ticker)=> {
-        let allTickers = p.tickers
         let newPrice = prices.find(t=>t.symbol==ticker.symbol) //find the price in prices array
-        let units = p.tickers.find(t=>t.symbol==ticker.symbol).units // find units in portfolio model
+        // let units = p.tickers.find(t=>t.symbol==ticker.symbol).units // find units in portfolio model
+        let units = ticker.units
         let newCurrValue = newPrice*units // calculates new current value
-        let newAllocation = p.currentValue / newValue // calculates new allocation
+        let newAllocation = p.currentValue / newCurrValue // calculates new allocation
         await models.Portfolio.updateOne({ _id: p._id },
             { tickers: [...allTickers.filter(t=>t.symbol!=symbol),{symbol : symbol, allocation: newAllocation, currValue: newCurrValue, units: units}]}
             )

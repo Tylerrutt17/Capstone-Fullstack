@@ -3,25 +3,31 @@ const { models}  = require('../../models');
 const fetchPrice = require('../stock/returnPrice').fetchPrice
 
 
-bigStocks = ["AAPL", "TSLA", "MSFT", "GOOG", "FB", "V", "JNJ", "WMT", "TSLA", "PG", "MA", "JPM", "NVDA", "HD", "UNH", "VZ", "DIS", "ADBE", "CRM", "BAC", "KO", "PYPL", "MRK", "NFLX"]
+bigStocks = ["AAPL", "TSLA", "MSFT", "GOOG", "FB", "V", "JNJ", "WMT", "PG", "MA", "JPM", "NVDA", "HD", "UNH", "VZ", "DIS", "ADBE", "CRM", "BAC", "KO", "PYPL", "MRK", "NFLX"]
 
 // goal - seed biggest 50 stocks by mcap into prices table. If user wants to add non seeded stock, check if supported and add to table
 const seedPrices = async () => {
+    await Promise.all([models.Prices.deleteMany({})])
     bigStocks.forEach(async stock => {
-        fetchPrice(stock, async (response) => {
-            // console.log(stock, response.o)
-        addStock(stock, response.o)
+        await fetchPrice(stock, async (response) => {
+            await addStock(stock, response.o)
         })
     })
 }
 const addStock = async (stock, price) => {
-    await new models.Prices({
+    const p = await new models.Prices({
         ticker: stock,
         prevPrice: price,
-        currPrice: price,
+        currPrice: 0,
         lastUpdate: new Date(),
-        }).save
+        })
+    await p.save()
   };
-// seedPrices()
+  
+const initializePrice = async (stock) => {
+    await fetchPrice(stock, async (response) => {
+        await addStock(stock, response.o)
+    })
+};
 
-module.exports = {seedPrices, addStock}
+module.exports = {seedPrices, addStock, initializePrice}

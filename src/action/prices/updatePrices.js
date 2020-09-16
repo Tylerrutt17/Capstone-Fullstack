@@ -7,18 +7,16 @@ const updateStockPrices = async () => {
     // Runs once per day at 9:30am on mondays through fridays. Extra feature: Observe for holidays.
     // Observe Each Stock Object
     const docs = await models.Prices.find()
-    docs.forEach((stock)=> {
-        fetchPrice(stock.ticker, (response) => {
-          console.log(stock);
-          updateSpecificStockPrice(response.o, stock)
-          console.log(stock)
+    docs.forEach( async (stock)=> {
+        await fetchPrice(stock.ticker, (response) => {
+          await updateSpecificStockPrice(response.c, stock)
         })
     })
 }
-const updateSpecificStockPrice = async (open, stock) => {
+const updateSpecificStockPrice = async (current, stock) => {
   // set the previous days price to the current price (taken yesterday)
   // then update the current price with
-  const result = await models.Prices.updateOne({ _id: stock.id }, { ticker:stock.ticker, prevPrice: stock.currPrice, currPrice: open })
+  const result = await models.Prices.updateOne({ _id: stock.id }, { ticker:stock.ticker, prevPrice: stock.currPrice, currPrice: current })
 };
 
 module.exports = updateStockPrices
