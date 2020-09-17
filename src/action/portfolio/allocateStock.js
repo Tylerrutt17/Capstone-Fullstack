@@ -62,7 +62,6 @@ const allocate = async (portfolioId, allocation, symbol) => {
     let currentPortfolioAllocation = sum(p.tickers.map(t=>t.allocation)) // another way of writing this is (p.currentValue - p.usableFunds) / p.currentValue
     // if stock is in portfolio
     console.log(p.tickers.filter(t => t.symbol === symbol).length, "line 64")
-    console.log(symbol, "*****")
     if (p.tickers.filter(t => t.symbol === symbol).length) {
         let ticker = p.tickers.find(t=>t.symbol==symbol)
         let allocationDiff = (allocation - ticker.allocation)*.01
