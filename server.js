@@ -127,7 +127,7 @@ const createPortfolioAndUser = async () => {
         password: pswrd,
         leader: true,
         followers: 0,
-        totalFunds: 1500,
+        totalFunds: 3179.99,
         portfolios: []
       });
       await user1.save();
@@ -136,11 +136,11 @@ const createPortfolioAndUser = async () => {
         name: 'My new portfolio',
         active: true,
         usableFunds: 0,
-        startingValue: 1000,
-        currentValue: 1500,
+        startingValue: 1500,
+        currentValue: 3179.99,
         currentAllcoation: 100,
-        tickers: [{symbol : 'TSLA', allocation: 66.6, currValue: 1000, units: 10}, {symbol : 'AMZN', allocation: 33.3, desiredAllocation: 33.3, currValue: 500, units: 12}],
-        history: [{date : new Date("2016-05-18T16:00:00Z"), value: 1000}, {date : new Date("2016-05-19T16:00:00Z"), value: 1500}],
+        tickers: [{symbol : 'TSLA', allocation: 0, desiredAllocation: 50, currValue: 0, units: 0}, {symbol : 'AMZN', allocation: 100, desiredAllocation: 50, currValue: 3179.99, units: 1}],
+        history: [{date : new Date("2016-05-18T16:00:00Z"), value: 1500}, {date : new Date("2016-05-19T16:00:00Z"), value: 3179.99}],
         user: user1.id,
       });
     await portfolio.save()
@@ -148,10 +148,10 @@ const createPortfolioAndUser = async () => {
     await models.User.updateOne({ _id: user1._id },
         { portfolios: portfolio._id })
 
-    let p = await models.Portfolio.findById(portfolio._id);
-    let currentTickers = p.tickers
-    await models.Portfolio.updateOne({ _id: portfolio._id },
-        { tickers: [...currentTickers.filter(t=>t.symbol!="TSLA"),{symbol : 'TSLA', allocation: 66.6, desiredAllocation:66.6, currValue: 1000, units: 20}]})
+    // let p = await models.Portfolio.findById(portfolio._id);
+    // let currentTickers = p.tickers
+    // await models.Portfolio.updateOne({ _id: portfolio._id },
+    //     { tickers: [...currentTickers.filter(t=>t.symbol!="TSLA"),{symbol : 'TSLA', allocation: 66.6, desiredAllocation:66.6, currValue: 1000, units: 20}]})
 }
 // createPortfolioAndUser()
 
@@ -242,6 +242,6 @@ const createUsersWithPortfolio = async () => {
 //     }
 
 
-// createPortfolioAndUser()
+createPortfolioAndUser()
 scheduledUpdate()
 // test()

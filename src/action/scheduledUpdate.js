@@ -18,6 +18,8 @@ const scheduledUpdate = async () => {
         console.log("Completed Portfolio update")
         await updateUserTotalFunds() // Recalculate each users total funds
         console.log("Completed User update")
+        await rebalanceAllPortfolios()
+        console.log("Completed portfolio rebalance")
     });
     var rule = new schedule.RecurrenceRule();
     rule.dayOfWeek = [new schedule.Range(1, 5)]; // Set to run ONCE each day monday through friday.

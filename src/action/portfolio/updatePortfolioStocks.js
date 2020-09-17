@@ -36,7 +36,6 @@ const updateSpecificPortfolio = async (p, prices) => {
         { history: [...oldHistory, {date: new Date(), value: newValue}]})
     await models.Portfolio.updateOne({ _id: p._id },
         { currentValue: newValue})
-    console.log("Updated all portfolios")
 }
 
 
