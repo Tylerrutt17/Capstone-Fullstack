@@ -5,7 +5,7 @@ const rebalanceAllPortfolios = async () => {
     // Observe Each Portfolio Object
     const docs = await models.Portfolio.find()
     docs.forEach( async (portfolio)=> {
-        await rebalancePortfolio()
+        await rebalancePortfolio(portfolio)
         // await deAllocatePortfolio(portfolio)
         // await reAllocatePortfolio(portfolio)
     })
