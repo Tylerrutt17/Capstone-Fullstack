@@ -3,6 +3,7 @@ const updateStockPrices = require('./prices/updatePrices')
 const updatePortfolioStocks = require('./portfolio/updatePortfolioStocks')
 const updateUserTotalFunds = require('./user/updateUserTotalFunds')
 const rebalanceAllPortfolios = require('./portfolio/rebalanceAllPortfolios')
+const updateFollowerPortfolios = require('./user/updateFollowerPortfolios')
 
 
 const scheduledUpdate = async () => {
@@ -15,6 +16,7 @@ const scheduledUpdate = async () => {
         await updatePortfolioStocks() // Update all stock prices/values/allocations and history/currentValue in every portfolio
         await updateUserTotalFunds() // Recalculate each users total funds
         // await rebalanceAllPortfolios()
+        await updateFollowerPortfolios() // automate allocation of follower portfolios
         console.log("Completed portfolio rebalance")
     });
     var rule = new schedule.RecurrenceRule();
@@ -25,6 +27,7 @@ const scheduledUpdate = async () => {
       await updateStockPrices() // Pull down latest prices and update prices table
       await updatePortfolioStocks() // Update all stock prices/values/allocations and history/currentValue in every portfolio
       await updateUserTotalFunds() // Recalculate each users total funds
+      await updateFollowerPortfolios() // automate allocation of follower portfolios
   });
   var rule2 = new schedule.RecurrenceRule();
     rule2.dayOfWeek = 0; // Set to run ONCE each day monday through friday.
