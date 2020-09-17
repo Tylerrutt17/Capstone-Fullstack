@@ -30,17 +30,28 @@ router.get('/:portfolioId', async (req, res) => {
   return res.send(portfolio);
   
 });
+
+// return a portfolio history over the last x days
+router.get('/history/:portfolioId', async (req, res) => {
+    let interval = req.query.days;
+    let portfolio = await req.context.models.Portfolio.findById(req.params.portfolioId);
+    interval = Math.min(portfolio.history.length, req.query.days)
+    rv = portfolio.history.slice(0).slice(-interval)
+  return res.send(rv)
+})
+
 //  create a new portfolio
 router.post('/', async (req, res) => {
-  const portfolio = await req.context.models.Portfolio.create({
-    name: req.body.name,
-    user: req.context.currentUser.id,
-    funds: 0,
-    percent_allocated: 0,
-    active: false,
-    asset_num: 0,
-    last_rebalance: new Date(),
-  });
+  // needs to be updated
+  // const portfolio = await req.context.models.Portfolio.create({
+  //   name: req.body.name,
+  //   user: req.context.currentUser.id,
+  //   funds: 0,
+  //   percent_allocated: 0,
+  //   active: false,
+  //   asset_num: 0,
+  //   last_rebalance: new Date(),
+  // });
  
   return res.send(message);
 });

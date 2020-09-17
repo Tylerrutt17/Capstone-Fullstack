@@ -1,5 +1,9 @@
 const mongoose = require('mongoose')
+<<<<<<< HEAD
 //const passportLocalMongoose = require('passport-local-mongoose');
+=======
+const passportLocalMongoose = require('passport-local-mongoose');
+>>>>>>> 6d67d07df4ba170b99d50e97836caabf2bffb966
 
 let userSchema = new mongoose.Schema(
     {

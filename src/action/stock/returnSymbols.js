@@ -1,13 +1,16 @@
+const finnhub = require('finnhub');
+const finnKey = require('../../../config/keys.js').finnKey
 
-const request = require('request');
+const api_key = finnhub.ApiClient.instance.authentications['api_key'];
+api_key.apiKey = finnKey
+const finnhubClient = new finnhub.DefaultApi()
 
 const returnSymbols = () => {
-
-    request('https://finnhub.io/api/v1/stock/symbol?exchange=US&token=btdo5q748v6p1d4q5sp0', { json: true }, (err, res, body) => {
-      if (err) { return console.log(err); }
-      console.log(body.url);
-      console.log(body.explanation);
-    });
+  finnhubClient.stockSymbols("US", (error, data, response) => {
+    console.log(data)
+  });
 }
+// returnSymbols()
+
 
 module.exports = returnSymbols

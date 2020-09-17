@@ -15,7 +15,9 @@ router.get('/:historyId', async (req, res) => {
   );
   return res.send(history);
 });
-//  return a history by id and date
+//  return a history by portfolio id
+
+//  return a history by portfolio id and date
 router.get('/:historyId/:date', async (req, res) => {
     const history = await req.context.models.History.findById(
       req.params.historyId,

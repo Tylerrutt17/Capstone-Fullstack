@@ -10,7 +10,7 @@ let pricesSchema = new mongoose.Schema({
         type: Number,
     },
     currPrice: {
-        Number,
+        type: Number,
     },
 })
 const Prices = mongoose.model("Prices", pricesSchema);
