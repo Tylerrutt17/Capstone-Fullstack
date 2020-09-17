@@ -27,27 +27,35 @@ import NavItem from './NavItem';
 const user = {
   avatar: 'https://picsum.photos/200',
   jobTitle: 'Leader',
-  name: 'Rashad Collins'
+  name: 'Rashad Collins',
+  leader: true
 };
+
+let route;
+
+const LeadFollowRoute = (user) =>{
+  user.leader = true ? route = 'leader' : route = 'follower'
+}
+LeadFollowRoute(user)
 
 const items = [
   {
-    href: '/app/dashboard',
+    href: `/${route}/dashboard`,
     icon: BarChartIcon,
     title: 'Dashboard'
   },
   {
-    href: '/app/social',
+    href: `/${route}/social`,
     icon: UsersIcon,
     title: 'Social'
   },
   {
-    href: '/app/automations',
+    href: `/${route}/automations`,
     icon: ToggleRightIcon,
     title: 'Automation'
   },
   {
-    href: '/app/portfolio',
+    href: `/${route}/Portfolio`,
     icon: PieChartIcon,
     title: 'Portfolio'
   }
@@ -96,7 +104,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
           className={classes.avatar}
           component={RouterLink}
           src={user.avatar}
-          to="/app/account"
+          to={`/${route}/account`}
         />
         <Typography
           className={classes.name}

@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import DonutChart from '../../mixins/DonutChart';
+import DonutChart from '../../mixins/DonutChart'
 import {
   Box,
   Card,
@@ -23,25 +23,27 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const OverviewDonut = ({ className, ...rest }) => {
+const PortfolioDonut = ({ className, ...rest }) => {
   const classes = useStyles();
   const theme = useTheme();
 
   const data = {
     datasets: [
       {
-        data: [63, 15, 22],
+        data: [63.20, 15.85, 23.45,23.58,13],
         backgroundColor: [
           colors.indigo[500],
           colors.red[600],
-          colors.orange[600]
+          colors.orange[600],
+          colors.green[600],
+          colors.blue[600]
         ],
         borderWidth: 8,
         borderColor: colors.common.white,
         hoverBorderColor: colors.common.white
       }
     ],
-    labels: ['Portfolio 1', 'Portfolio 2', 'Portfolio 3']
+    labels: ['Tesla', 'Apple', 'Starbucks','General Eletric','Twitter']
   };
 
   const options = {
@@ -68,41 +70,78 @@ const OverviewDonut = ({ className, ...rest }) => {
 
   const devices = [
     {
-      title: 'Portfolio 1',
-      value: 63,
-      icon: LaptopMacIcon,
+      title: 'TSLA',
+      value: 63.20,
       color: colors.indigo[500]
     },
     {
-      title: 'Portfolio 2',
-      value: 15,
-      icon: TabletIcon,
+      title: 'AAPL',
+      value: 15.85,
       color: colors.red[600]
     },
     {
-      title: 'Portfolio 3',
-      value: 23,
-      icon: PhoneIcon,
+      title: 'SBUX',
+      value: 23.45,
       color: colors.orange[600]
+    },
+    {
+      title: 'GE',
+      value: 23.58,
+      color: colors.green[600]
+    },
+    {
+      title: 'TWTR',
+      value: 13,
+      color: colors.blue[600]
     }
   ];
 
   return (
-    <Card className={clsx(classes.root, className)} {...rest}>
+    <Card
+      className={clsx(classes.root, className)}
+      {...rest}
+    >
       <CardHeader title="Overall Allocation" />
       <Divider />
       <CardContent>
-        <Box height={300} position="relative">
-          <DonutChart data={data} options={options} height="100%" />
+        <Box
+          height={300}
+          position="relative"
+        >
+          <DonutChart
+            data={data}
+            options={options}
+            height='100%'
+          />
         </Box>
-        <Box display="flex" justifyContent="center" mt={2}>
-          {devices.map(({ color, title, value }) => (
-            <Box key={title} p={1} textAlign="center">
-              <Typography color="textPrimary" variant="body1">
+        <Box
+          display="flex"
+          justifyContent="center"
+          flexDirection='column'
+          mt={2}
+        >
+          {devices.map(({
+            color,
+            title,
+            value
+          }) => (
+            <Box
+              key={title}
+              p={1}
+              textAlign="center"
+            >
+              <Typography
+                color="textPrimary"
+                variant="body1"
+              >
                 {title}
               </Typography>
-              <Typography style={{ color }} variant="h2">
-                {value}%
+              <Typography
+                style={{ color }}
+                variant="h2"
+              >
+                {value}
+                %
               </Typography>
             </Box>
           ))}
@@ -112,8 +151,8 @@ const OverviewDonut = ({ className, ...rest }) => {
   );
 };
 
-OverviewDonut.propTypes = {
+PortfolioDonut.propTypes = {
   className: PropTypes.string
 };
 
-export default OverviewDonut;
+export default PortfolioDonut;

@@ -24,18 +24,10 @@ const rows = [
     createData('Tesla', 'TSLA', 25.0, 51),
     createData('GE', 'GE', 1.0, 24),
     createData('Twitter', 'TWTR', 6.0, 24),
-    createData('Groupon', 'GRP', 6.0, 49),
-    createData('Homewell', 'HWL', 3.2, 87),
-    createData('The Home Depot', 'THD', 9.0, 37),
-    createData('Jelly Belly', 'JB', -2.3, 94),
-    createData('Walmart', 'WM', 26.0, 65),
-    createData('kellogs', 'KLG', 0.2, 98),
-    createData('Microsoft', 'MSFT', -6.3, 81),
-    createData('Splunk', 'SPLK', -19.0, 9),
-    createData('Bitcoin', 'BTC', 18.0, 63)
-  ];
+    createData('Starbucks', 'SBUX', 3.2, 87)
+];
 
-export default function AllocationTable() {
+export default function EditTable() {
   const classes = useStyles();
 
   return (

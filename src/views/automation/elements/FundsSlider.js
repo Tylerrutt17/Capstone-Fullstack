@@ -62,9 +62,9 @@ const InputSlider = withStyles({
   }
 })(Slider);
 
-export default function AllocationSlider() {
+export default function FundsSlider(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(30);
+  const [value, setValue] = React.useState(0);
 
   const handleSliderChange = (event, newValue) => {
     setValue(newValue);
@@ -77,8 +77,8 @@ export default function AllocationSlider() {
   const handleBlur = () => {
     if (value < 0) {
       setValue(0);
-    } else if (value > 100) {
-      setValue(100);
+    } else if (value > props.avail) {
+      setValue(props.avail);
     }
   };
 
@@ -86,7 +86,6 @@ export default function AllocationSlider() {
     <Grid container spacing={2} alignItems="center">
       <Grid item xs>
         <InputSlider
-          disabled= {true}
           value={typeof value === 'number' ? value : 0}
           onChange={handleSliderChange}
           aria-labelledby="input-slider"
@@ -101,7 +100,7 @@ export default function AllocationSlider() {
           onBlur={handleBlur}
           inputProps={{
             min: 0,
-            max: 100,
+            max: props.avail,
             type: 'number',
             'aria-labelledby': 'input-slider'
           }}

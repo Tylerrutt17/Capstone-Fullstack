@@ -8,11 +8,12 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Card';
 import AssetTable from './AssetTable';
-import AllocationSlider from './elements/AllocationSlider';
+import AllocationSlider from '../../components/AllocationSlider';
 import AllocationTable from './AllocationTable';
 import FilledInput from '@material-ui/core/FilledInput';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
+import SelectAllocation from './SelectAllocation';
 import Grid from '@material-ui/core/Grid';
 
 
@@ -34,11 +35,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function getSteps() {
-  return ['Select Assets', 'Select Allocations', 'Create Portfolio'];
+  return ['Allocate Funds','Select Assets', 'Select Allocations', 'Name your Portfolio'];
 }
 
 function getStepContent(step) {
   switch (step) {
+    case 0:
+      return (<SelectAllocation/>);
     case 0:
       return (<AssetTable/>);
     case 1:
@@ -60,7 +63,7 @@ function getStepContent(step) {
       </Grid>
       );
     default:
-      return 'Unknown step';
+      return 'Portfolio Created';
   }
 }
 

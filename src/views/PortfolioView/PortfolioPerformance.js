@@ -23,60 +23,47 @@ const PortfolioPerformance = ({ className, ...rest }) => {
   const theme = useTheme();
 
   
-  const series = [
-    {
-      name: "Portfolio 1",
-      data: [20,18,16,19,26,29,38,45]
-      
-    }
-    ,
-    // {
-    //   name: "Followers",
-    //   data: [1,6,2,3,7,13,26,34]
-    // }
-  ];
+  const series = [{
+    name: 'Value',
+    data: [31, 40, 28, 51, 42, 109, 100],
+    type: 'area'
+  }, {
+    name: 'Followers',
+    data: [11, 32, 45, 32, 34, 52, 41],
+    type:'line'
+  }]
   const options = {
     chart: {
-      height: '400px',
-      type: "area",
-      stacked: true,
-      
+      height: 350,
+      dropShadow: {
+        enabled: [false,true]
+      },
     },
-    colors:['#3F51B5','#E53935'],
+    colors:['#3F51B5','#A72927'],
     dataLabels: {
-      enabled: false,
+      enabled: false
+    },
+    stroke: {
+      curve: 'smooth',
+      dashArray: [0,9],
+      width: [3,10]
     },
     markers: {
-      size: 0,
-      hover: {
-        sizeOffset: 6
-      }
-    },
-    fill: {
-        colors: '#3F51B5',
-    },
-    yaxis: {
-      labels: {
-        formatter: function (val) {
-          return (val / 1).toFixed(0);
-        },
-      },
-      title: {
-        text: "Price",
-      },
+      size: [0,8]
     },
     xaxis: {
-      // type: "datetime",
+      type: 'datetime',
+      categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
     },
     tooltip: {
-      shared: false,
-      y: {
-        formatter: function (val) {
-          return (val / 1).toFixed(0);
-        },
+      x: {
+        format: 'dd/MM/yy HH:mm'
       },
     },
-  };
+  }
+
+
+
 
   return (
     <Card
