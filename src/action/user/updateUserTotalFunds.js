@@ -17,14 +17,23 @@ const updateAllUsers = async () => {
 
 const updateSpecificUser = async (u) => {
     // map through each portfolioid, find the corresponding model, and return its current value\
-    var allFunds;
-    let rvs = u.portfolios.forEach( async (portfolioId) => {
-        let p = await models.Portfolio.findById(portfolioId)
-        allFunds = allFunds + p.currentValue
-    })
+    // var allFunds = 0;
+    // let rvs = u.portfolios.forEach( async (portfolioId) => {
+    //     let p = await models.Portfolio.findById(portfolioId)
+    //     console.log(p.currentValue)
+    //     allFunds = allFunds + p.currentValue
+    //     console.log(allFunds)
+    // })
+    const getPortfolioValues = async (u) => {
+        let result = await u.portfolios.map(p => {
+            let rv = models.Portfolio.findById(p)
+            return rv.currentValue
+        })
+        return sum(result)
+    }
     // update user with summed portfolio values
     await models.User.updateOne({ _id: u._id },
-        { totalFunds: allFunds})
+        { totalFunds: getPortfolioValues(u)})
 }
     
 module.exports = updateAllUsers

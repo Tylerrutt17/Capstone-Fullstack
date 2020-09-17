@@ -46,54 +46,55 @@ const buyStock = async (portfolioId, allocation, symbol) => {
         }
     return p
 }
+// await allocate(p._id, ticker.desiredAllocation, ticker.symbol)
 const allocate = async (portfolioId, allocation, symbol) => {
     console.log("allocating stock")
+    console.log(portfolioId, allocation, symbol)
     // determine if stock price is seeded, if not seeded
     const prices = await models.Prices.find()
     let p = await models.Portfolio.findById(portfolioId);
-    if (!prices.find(price => price.ticker === 'symbol')) {
+    if (!prices.find(price => price.ticker === symbol)) {
         await initializePrice(symbol)
     }
-    let price = prices.find(price => price.ticker === symbol).currPrice
-    let newUnits = allocation*.01*p.currentValue / price; //fine with splitting units
-    let newCurrValue = price*newUnits
-    let fundResult = p.usableFunds - newCurrValue
-    if (fundResult < 0) return "not possible: not enough funds"
-    let currentPortfolioAllocation = sum(p.tickers.map(t=>t.allocation))
-    if (allocation + currentPortfolioAllocation > 100) return "not possible: portfolio is overextended"
-    let currentTickers = p.tickers
-    console.log(currentTickers)
+    let price = prices.find(price => price.ticker === symbol).currPrice // current price of the ticker
+    let newCurrValue = allocation*.01*p.currentValue
+    let newUnits = newCurrValue / price //fine with splitting units
+    let currentPortfolioAllocation = sum(p.tickers.map(t=>t.allocation)) // another way of writing this is (p.currentValue - p.usableFunds) / p.currentValue
     // if stock is in portfolio
-    if (p.tickers.find( ({symbol}) => symbol === symbol )) {
-        let ticker = currentTickers.find(t=>t.symbol==symbol)
-        console.log(ticker)
-        // deallocate
-        // update usableFunds
-        let fundRestore = ticker.currValue + p.usableFunds
-        console.log(fundRestore)
-        await models.Portfolio.updateOne({ _id: portfolioId },
-            { usableFunds: fundRestore})
-        console.log("line 76")
-        // await models.Portfolio.updateOne({ _id: p._id },
-        //     { tickers: [...currentTickers.filter(t=>t.symbol!=symbol),
-        //         {symbol : symbol, allocation: 0, desiredAllocation: allocation, currValue: 0, units: 0}]})
-        // console.log("line 80")
-        // reallocate
+    console.log(p.tickers.filter(t => t.symbol === symbol).length, "line 64")
+    console.log(symbol, "*****")
+    if (p.tickers.filter(t => t.symbol === symbol).length) {
+        let ticker = p.tickers.find(t=>t.symbol==symbol)
+        let allocationDiff = (allocation - ticker.allocation)*.01
+        let fundResult = p.usableFunds - (allocationDiff * p.currentValue)
+        if (fundResult < 0) {console.log("not possible")}
+        
+        console.log("line 76", symbol, allocation, newCurrValue, newUnits)
+    //     // reallocate
         await models.Portfolio.updateOne({ _id: p._id },
-            { tickers: [...currentTickers.filter(t=>t.symbol!=symbol),
+            { tickers: [...p.tickers.filter(t=>t.symbol!=symbol),
                 {symbol : symbol, allocation: allocation, desiredAllocation: allocation, currValue: newCurrValue, units: newUnits}]})
-    } else {
-    // else add it to portfolio
-    console.log("line 87")
-    await models.Portfolio.updateOne({ _id: portfolioId },
-        { tickers: [...currentTickers, 
-            {symbol: symbol, allocation: allocation, desiredAllocation: allocation, currValue: newCurrValue, units: newUnits}]})
-    }
-    // update usableFunds
-    console.log("line 93")
-    await models.Portfolio.updateOne({ _id: portfolioId },
-        { usableFunds: fundResult})
-        console.log("stock allocated")
+            // update usableFunds
+        await models.Portfolio.updateOne({ _id: portfolioId },
+            { usableFunds: fundResult})
+            console.log("stock allocated")
+    }  
+    else { // this else is running in addition to the if.... why?
+        // else add it to portfolio
+        // check if value of the allocation is less than total usable funds
+        let fundResult = p.usableFunds - allocation*p.currentValue
+        if (fundResult < 0) {console.log("not possible")}
+        console.log("line 87")
+        await models.Portfolio.updateOne({ _id: portfolioId },
+            { tickers: [...p.tickers, 
+                {symbol: symbol, allocation: allocation, desiredAllocation: allocation, currValue: newCurrValue, units: newUnits}]})
+        console.log(p.tickers)
+            // update usableFunds
+        console.log("line 93", fundResult)
+        await models.Portfolio.updateOne({ _id: portfolioId },
+            { usableFunds: fundResult})
+            console.log("stock allocated")
+        }
 }
     
 

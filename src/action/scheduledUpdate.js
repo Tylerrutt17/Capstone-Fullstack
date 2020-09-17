@@ -8,17 +8,13 @@ const rebalanceAllPortfolios = require('./portfolio/rebalanceAllPortfolios')
 const scheduledUpdate = async () => {
     var rule1 = new schedule.RecurrenceRule();
     rule1.dayOfWeek = [1, new schedule.Range(0, 6)];
-    rule1.second = 1; // runs each minute when second value is at 30
+    rule1.second = 30; // runs each minute when second value is at 30
     var j = schedule.scheduleJob(rule1, async () => {
         console.log('Reached 10 Seconds of the Current Minute');
-        console.log("Starting update")
-        await updateStockPrices() // Pull down latest prices and update prices table
-        console.log("Completed Price update")
+        // await updateStockPrices() // Pull down latest prices and update prices table
         await updatePortfolioStocks() // Update all stock prices/values/allocations and history/currentValue in every portfolio
-        console.log("Completed Portfolio update")
         await updateUserTotalFunds() // Recalculate each users total funds
-        console.log("Completed User update")
-        await rebalanceAllPortfolios()
+        // await rebalanceAllPortfolios()
         console.log("Completed portfolio rebalance")
     });
     var rule = new schedule.RecurrenceRule();

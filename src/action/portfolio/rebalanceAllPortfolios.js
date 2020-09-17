@@ -13,7 +13,7 @@ const rebalanceAllPortfolios = async () => {
 
 const rebalancePortfolio = async (p) => {
     p.tickers.forEach( async (ticker) => {
-       await allocate(p._id, ticker.desiredAllocation, ticker.symbol)
+        await allocate(p._id, ticker.desiredAllocation, ticker.symbol)
     })
 }
 
