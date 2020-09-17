@@ -27,6 +27,10 @@ let portfolioSchema = new mongoose.Schema({
         currValue: Number,
         units: Number,
     }],
+    followers: { 
+        type: Array,
+        required: true,
+    },
     history: [{
         date: Date,
         value: Number
