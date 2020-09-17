@@ -26,31 +26,31 @@ const PortfolioPerformance = ({ className, ...rest }) => {
   const series = [
     {
       name: "Portfolio 1",
-      data: [[1, 34], [3.8, 43], [5, 31] , [10, 43], [13, 33], [15, 43], [18, 33] , [20, 52]]
+      data: [20,18,16,19,26,29,38,45]
       
     }
+    ,
+    // {
+    //   name: "Followers",
+    //   data: [1,6,2,3,7,13,26,34]
+    // }
   ];
   const options = {
     chart: {
       height: '400px',
       type: "area",
-      stacked: false,
-      zoom: {
-        type: "x",
-        enabled: true,
-        autoScaleYaxis: true,
-      },
+      stacked: true,
       
-      toolbar: {
-        autoSelected: "zoom",
-      },
     },
-    colors:['#3F51B5'],
+    colors:['#3F51B5','#E53935'],
     dataLabels: {
       enabled: false,
     },
     markers: {
-      size: 0
+      size: 0,
+      hover: {
+        sizeOffset: 6
+      }
     },
     fill: {
         colors: '#3F51B5',
@@ -58,7 +58,7 @@ const PortfolioPerformance = ({ className, ...rest }) => {
     yaxis: {
       labels: {
         formatter: function (val) {
-          return (val / 1000000).toFixed(0);
+          return (val / 1).toFixed(0);
         },
       },
       title: {
@@ -72,7 +72,7 @@ const PortfolioPerformance = ({ className, ...rest }) => {
       shared: false,
       y: {
         formatter: function (val) {
-          return (val / 1000000).toFixed(0);
+          return (val / 1).toFixed(0);
         },
       },
     },
@@ -95,6 +95,7 @@ const PortfolioPerformance = ({ className, ...rest }) => {
           <AreaChart
             series = {series}
             options={options}
+            type='area'
           />
         </Box>
       </CardContent>

@@ -105,6 +105,7 @@ const PerformanceSummary = ({ className, ...rest }) => {
           <AreaChart
             series = {series}
             options={options}
+            type="area"
           />
         </Box>
       </CardContent>

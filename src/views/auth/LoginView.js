@@ -2,7 +2,6 @@ import React from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import axios from 'axios';
 import {
   Box,
   Button,
@@ -49,6 +48,8 @@ const LoginView = () => {
               email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
               password: Yup.string().max(255).required('Password is required')
             })}
+
+            //HERE IS WHERE YOU WOULD SET THE AXIOS
             onSubmit={() => {
               navigate('/app/dashboard', { replace: true });
             }}
@@ -62,22 +63,7 @@ const LoginView = () => {
               touched,
               values
             }) => (
-              <form onSubmit = {e => {
-                e.preventDefault();
-                const userData = {
-                    email: values.email,
-                    password :values.password
-                };
-                axios
-                    .post("/api/auth/register_login", userData)
-                    .then(res => {
-                        console.log(res);
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        console.log(err.response);
-                    });
-            }}>
+              <form onSubmit={handleSubmit}>
                 <Box mb={3}>
                   <Typography
                     color="textPrimary"

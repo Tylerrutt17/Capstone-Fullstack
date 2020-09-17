@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import DonutChart from '../../../mixins/DonutChart'
+import DonutChart from '../../mixins/DonutChart';
 import {
   Box,
   Card,
@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const DonutChart = ({ className, ...rest }) => {
+const OverviewDonut = ({ className, ...rest }) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -88,50 +88,21 @@ const DonutChart = ({ className, ...rest }) => {
   ];
 
   return (
-    <Card
-      className={clsx(classes.root, className)}
-      {...rest}
-    >
+    <Card className={clsx(classes.root, className)} {...rest}>
       <CardHeader title="Overall Allocation" />
       <Divider />
       <CardContent>
-        <Box
-          height={300}
-          position="relative"
-        >
-          <donutChart
-            data={data}
-            options={options}
-            height='100%'
-          />
+        <Box height={300} position="relative">
+          <DonutChart data={data} options={options} height="100%" />
         </Box>
-        <Box
-          display="flex"
-          justifyContent="center"
-          mt={2}
-        >
-          {devices.map(({
-            color,
-            title,
-            value
-          }) => (
-            <Box
-              key={title}
-              p={1}
-              textAlign="center"
-            >
-              <Typography
-                color="textPrimary"
-                variant="body1"
-              >
+        <Box display="flex" justifyContent="center" mt={2}>
+          {devices.map(({ color, title, value }) => (
+            <Box key={title} p={1} textAlign="center">
+              <Typography color="textPrimary" variant="body1">
                 {title}
               </Typography>
-              <Typography
-                style={{ color }}
-                variant="h2"
-              >
-                {value}
-                %
+              <Typography style={{ color }} variant="h2">
+                {value}%
               </Typography>
             </Box>
           ))}
@@ -141,8 +112,8 @@ const DonutChart = ({ className, ...rest }) => {
   );
 };
 
-DonutChart.propTypes = {
+OverviewDonut.propTypes = {
   className: PropTypes.string
 };
 
-export default DonutChart;
+export default OverviewDonut;

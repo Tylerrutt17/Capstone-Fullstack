@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { Doughnut } from 'react-chartjs-2';
+import DonutChart from '../../../mixins/DonutChart'
 import {
   Box,
   Card,
@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const DonutChart = ({ className, ...rest }) => {
+const OverviewDonut = ({ className, ...rest }) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -99,7 +99,7 @@ const DonutChart = ({ className, ...rest }) => {
           height={300}
           position="relative"
         >
-          <Doughnut
+          <DonutChart
             data={data}
             options={options}
             height='100%'
@@ -141,8 +141,8 @@ const DonutChart = ({ className, ...rest }) => {
   );
 };
 
-DonutChart.propTypes = {
+OverviewDonut.propTypes = {
   className: PropTypes.string
 };
 
-export default DonutChart;
+export default OverviewDonut;

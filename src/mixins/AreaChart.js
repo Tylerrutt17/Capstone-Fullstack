@@ -5,9 +5,9 @@ import { makeStyles } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 
-const AreaChart = props => {
+const AreaChart = (props) => {
   return (
-    <ReactApexChart options={props.options} series={props.series} type="area" />
+    <ReactApexChart options={props.options} series={props.series} type={props.type} />
   );
 };
 

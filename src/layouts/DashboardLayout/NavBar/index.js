@@ -47,7 +47,7 @@ const items = [
     title: 'Automation'
   },
   {
-    href: '/app/dashboard',
+    href: '/app/portfolio',
     icon: PieChartIcon,
     title: 'Portfolio'
   }

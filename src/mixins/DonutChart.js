@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { Doughnut } from 'react-chartjs-2';
 
 
-const DonutChart = (props) => {
+const DonutChart = ({data,options}) => {
   return (
-    <Doughnut options={props.options} series={props.series} />
+    <Doughnut options={options} data={data} />
   );
 };
 
