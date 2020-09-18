@@ -16,6 +16,17 @@ router.get('/:userId', async (req, res) => {
   );
   return res.send(user);
 });
+
+router.get('/followers', async (req, res)=> {
+  const user = await req.context.models.User.find(); // needs to find the current user by id.
+  return res.send(`${user.followers}`);
+})
+
+router.get('/all-leaders', async (req, res) => { // filters out non leaders and sends list of leaders
+  const allUsers = await req.context.models.User.find();
+  const leaders = allUsers.filter(user=>user.leader == true)
+  res.send(leaders)
+})
  
 // export default router;
 // exports.router = router;

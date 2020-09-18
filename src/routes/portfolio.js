@@ -22,7 +22,30 @@ router.get('/', async (req, res) => {
   const portfolios = await req.context.models.Portfolio.find();
   return res.send(portfolios);
 });
-//  return a portfolio by id
+
+router.get('/portfolio-allocations', async (req, res) => {
+   // returns each portfolio's name and amount of funds in the portfolio
+   try {
+    const user = await req.context.models.User.find() // get current user
+    var portfolioInfo = []
+
+    user[0].portfolios.forEach(async port => {
+        let portfolio = await req.context.models.Portfolio.findById(port._id);
+        const pf = {name: portfolio.name, startingValue: portfolio.startingValue} //
+        portfolioInfo.push(pf)
+
+        if (port == user[0].portfolios.slice(-1)[0]) {
+            // last portfolio finished calculating
+            return res.send(portfolioInfo) // send all porfolio infos.
+        }
+    });
+  } catch (err) {
+      // user can't be found
+      return res.send(err)
+  }
+});
+
+//  returns a portfolio by id
 router.get('/:portfolioId', async (req, res) => {
   const portfolio = await req.context.models.Portfolio.findById(
     req.params.portfolioId,
@@ -95,86 +118,53 @@ router.delete('/delete/:portfolioId', async (req, res) => {
 });
 
 // when a user follows a 
-router.get('/follow/:portfolioId', async (req, res) => {
-  try {
+// router.get('/follow/:portfolioId', async (req, res) => {
+//   try {
 
-      const TotalDeposit = 100 // will need to be passed in with HOW MUCH they are designating to this portfolio
-      const newStocks = [] // as current values of the stock are updated they will passed into here.
+//       const TotalDeposit = 500 // will need to be passed in. HOW MUCH the user is designating to this portfolio
+//       const updatedTickers = [] // as current values of the stock are updated they will passed into here.
 
-      let portfolio = await req.context.models.Portfolio.findById(req.params.portfolioId);
-      portfolio.tickers.forEach(stock => {
-        fetchPrice(stock.symbol, (response) => {
-            // calculate 
-            const allocationCost = TotalDeposit / 100 * stock.allocation // Gets the allocated amount for this stock based on Leaders Allocation
-            const units = allocationCost / response.c  // total allocation cost divided by the current price of the stock.
-            newStocks.push({symbol : stock.symbol, allocation: stock.allocation, currValue: allocationCost, units: units})
-        })
-      })
+//       let portfolio = await req.context.models.Portfolio.findById(req.params.portfolioId);
+//       portfolio.tickers.forEach(stock => {
+//         fetchPrice(stock.symbol, (response) => {
+//             // calculate 
+//             const allocationCost = TotalDeposit / 100 * stock.allocation // Gets the allocated amount for this stock based on Leaders Allocation
+//             const units = allocationCost / response.c  // total allocation cost divided by the current price of the stock.
+//             updatedTickers.push({symbol : stock.symbol, allocation: stock.allocation, currValue: allocationCost, units: units})
+//         })
+//       })
 
-      while (newStocks.length == portfolio.tickers.length) {
-          // once it reaches however many stocks are in the leaders portfolio (meaning all stocks have been updated) then create new portfolio ref.
-          Console.log("Loaded All Of Em.")
-          // const newPort = new models.Portfolio({
-          //   name: `Copy of ${portfolio.name}`,
-          //   active: true,
-          //   useableFunds: 0,
-          //   startingValue: 1000,
-          //   currentValue: 1000
-          // })
-          res.send("Success")
-          //await newPort.save()
-          break
-      }
+//       while (newStocks.length == portfolio.tickers.length) {
+//           // once it reaches however many stocks are in the leaders portfolio (meaning all stocks have been updated) then create new portfolio ref.
+//           Console.log("Loaded All Of Em.")
+//           const newPort = new models.Portfolio({
+//             name: `Copy of ${portfolio.name}`,
+//             active: true,
+//             useableFunds: 0,
+//             startingValue: TotalDeposit,
+//             currentValue: TotalDeposit,
+//             currentAllocation: 100,
+//             tickers: updatedTickers,
+//             history: [{date : new Date(), value: TotalDeposit}],
+//             user: user1.id,
+//           });
+//     await portfolio.save()
+//           res.send("Success")
+//           //await newPort.save()
+//           break
+//       }
+//       //res.send(portfolio)
+//   } catch (err) {
+//       console.log(err)
+//       res.send("Can't Find Portfolio")
+//   }
+// })
 
-      //res.send(portfolio)
-  } catch (err) {
-      console.log(err)
-      res.send("Can't Find Portfolio")
-  }
+router.get('/hello', (req, res) => {
+  return res.send("Hello There...")
+  
+
 })
-
-router.post('/new-portfolio', async (req, res) => {
-
-  let userId = req.context.currentUser
-
-  //   const port = new models.Portfolio({
-  //     name: req.body.name,
-  //     active: true,
-  //     last_rebalance: Date(),
-  //     startingValue: req.body.startingValue,
-  //     currentValue: req.body.currentValue,
-  //     tickers: req.body.tickers, // ['TSLA', 'AMZN', 'AAPL']
-  //     tickerAllocations: req.body.tickerAllocations, // [21, 50, 29]
-  //     tickerCurrValues: req.body.CurrValues // [25, 40, 32]
-  // })
-  // await port.save()
-  res.send(userId)
-})
-
-
-const addNewPortfolio = async () => {
-
-  const tickers = ['TSLA', 'AMZN', 'AAPL']
-  array.forEach(element => {
-      fetchPrice(stock.ticker, (response) => {
-          
-    })
-  });
-
-  console.log(tickers)
-
-  // const port = new models.Portfolio({
-  //     name: 'tyler',
-  //     active: true,
-  //     last_rebalance: Date(),
-  //     startingValue: 100,
-  //     currentValue: 110,
-  //     tickers: ['TSLA', 'AMZN', 'AAPL'],
-  //     tickerAllocations: [21, 50, 29],
-  //     tickerCurrValues: [25, 40, 32]
-  // })
-  // await port.save()
-}
  
 // export default router;
 module.exports = router;
