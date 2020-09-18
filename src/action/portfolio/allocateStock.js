@@ -2,11 +2,6 @@ const {models} = require('../../models')
 const fetchPrice = require('../stock/returnPrice').fetchPrice
 const initializePrice = require('../prices/seedPrices').initializePrice
 
-const seedTicker = async (symbol) => {
-    fetchPrice(symbol, (response) => {
-        addStock(symbol, response.o)
-    })
-}
 const sum = (array) => {
     let sum = array.reduce((a, b) => {
         return a + b;
@@ -78,10 +73,9 @@ const allocate = async (portfolioId, allocation, symbol) => {
             { usableFunds: fundResult})
             console.log("stock allocated")
     }  
-    else { // this else is running in addition to the if.... why?
-        // else add it to portfolio
+    else { // else add it to portfolio
         // check if value of the allocation is less than total usable funds
-        let fundResult = p.usableFunds - allocation*p.currentValue
+        let fundResult = p.usableFunds - allocation*.01*p.currentValue
         if (fundResult < 0) {console.log("not possible")}
         console.log("line 87")
         await models.Portfolio.updateOne({ _id: portfolioId },
