@@ -13,9 +13,9 @@ const scheduledUpdate = async () => {
     var j = schedule.scheduleJob(rule1, async () => {
         console.log('Reached 10 Seconds of the Current Minute');
         // await updateStockPrices() // Pull down latest prices and update prices table
-        await updatePortfolioStocks() // Update all stock prices/values/allocations and history/currentValue in every portfolio
-        await updateUserTotalFunds() // Recalculate each users total funds
-        await rebalanceAllPortfolios()
+        // await updatePortfolioStocks() // Update all stock prices/values/allocations and history/currentValue in every portfolio
+        // await updateUserTotalFunds() // Recalculate each users total funds
+        // await rebalanceAllPortfolios()
         await updateFollowerPortfolios() // automate allocation of follower portfolios
         console.log("Completed portfolio rebalance")
     });
