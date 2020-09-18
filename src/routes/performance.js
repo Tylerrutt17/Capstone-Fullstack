@@ -108,9 +108,7 @@ router.get('/performance-graph', async (req, res) => {
     res.send("i m alive")
 })
 
-router.get('/test', async (req, res) => {
-    return res.send("hey")
-  })
+
 
 // sends history of any portfolio by the id.
 router.get('/history/:portfolioId', async (req, res) => {
