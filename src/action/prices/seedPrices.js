@@ -26,7 +26,7 @@ const addStock = async (stock, price) => {
   
 const initializePrice = async (stock) => {
     await fetchPrice(stock, async (response) => {
-        await addStock(stock, response.o)
+        await addStock(stock, response.c)
     })
 };
 
