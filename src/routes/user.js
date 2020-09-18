@@ -19,11 +19,11 @@ router.get('/:userId', async (req, res) => {
   return res.send(user);
 });
 
-router.get('/test', (req, res) => {
-  res.send("hey Hey")
+router.get('/test/test', async (req, res) => {
+  return res.send("hey hey")
 })
 
-router.get('/followers', async (req, res)=> {
+router.get('/user/followers', async (req, res)=> {
   try {
     const user = await req.context.models.User.find(); // needs to find the current user by id.
     console.log("User", user[0])
@@ -33,7 +33,7 @@ router.get('/followers', async (req, res)=> {
   }
 })
 
-router.get('/all-leaders', async (req, res) => { // filters out non leaders and sends list of leaders
+router.get('/user/all-leaders', async (req, res) => { // filters out non leaders and sends list of leaders
   const allUsers = await req.context.models.User.find();
   const leaders = allUsers.filter(user=>user.leader == true)
   return res.send(leaders)
