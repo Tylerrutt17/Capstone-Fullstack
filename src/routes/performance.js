@@ -38,12 +38,12 @@ router.get('/overall-performance', async (req, res) => {
             if (port == user[0].portfolios.slice(-1)[0]) {
                 // last portfolio finished calculating
                 // send total percentage changed
-                res.send(`${totalPortfoliosPercentChange}`)
+                return res.send(`${totalPortfoliosPercentChange}`)
             }
         });
     } catch (err) {
         // user can't be found
-        res.send(err)
+        return res.send(err)
     }
 })
 

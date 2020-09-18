@@ -1,7 +1,9 @@
 // import { Router } from 'express';
 const { Router } = require('express');
- 
 const router = Router();
+
+// Load User model
+const { models } = require('../models/index.js');
  
 // fetches a list of users doesn't get any input parameters from the request.
 router.get('/', async (req, res) => {
@@ -17,15 +19,24 @@ router.get('/:userId', async (req, res) => {
   return res.send(user);
 });
 
+router.get('/test', (req, res) => {
+  res.send("hey Hey")
+})
+
 router.get('/followers', async (req, res)=> {
-  const user = await req.context.models.User.find(); // needs to find the current user by id.
-  return res.send(`${user.followers}`);
+  try {
+    const user = await req.context.models.User.find(); // needs to find the current user by id.
+    console.log("User", user[0])
+    return res.send(`${user[0].followers}`);
+  } catch (err) {
+    return res.send(err)
+  }
 })
 
 router.get('/all-leaders', async (req, res) => { // filters out non leaders and sends list of leaders
   const allUsers = await req.context.models.User.find();
   const leaders = allUsers.filter(user=>user.leader == true)
-  res.send(leaders)
+  return res.send(leaders)
 })
  
 // export default router;
