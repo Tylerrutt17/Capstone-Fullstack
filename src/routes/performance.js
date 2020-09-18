@@ -51,7 +51,6 @@ router.get('/total-balance', async (req, res)=> {
     try {
         const user = await req.context.models.User.find() // current user id
         var totalportfolioValue = 0
-
         user[0].portfolios.forEach(async port => {
             let portfolio = await req.context.models.Portfolio.findById(port._id);
             totalportfolioValue+=portfolio.currentValue
@@ -66,7 +65,24 @@ router.get('/total-balance', async (req, res)=> {
     }
 })
 
+// will send performance in percentage of any specific portfolio over 'x' amount of days. /213241421?days=2
+router.get('/portfolio/:portfolioId', async (req, res) => {
+    try {
+        let portfolio = await req.context.models.Portfolio.findById(req.params.portfolioId);
+        let days = req.query.days // req query days count
+        const range = portfolio.history.length >= days && days != 0 ? days : portfolio.history.length
+        let dayRange = portfolio.history.slice(0, range)
 
+        // Calculate differences and sum percentage changed.
+        let difference = dayRange[0].value - dayRange.slice(-1)[0].value
+        let percent = (difference / dayRange[0].value) * 100 // if its negative - its a increase; if its positive - its a decrease.
+        let percentChange = percent < 0 ? Math.abs(percent) : -Math.abs(percent) // invert negative and positive signs. 20% = increase, -20% = decrease
+        res.send(`${percentChange}`)
+
+    } catch (err) {
+        res.send("Can't Find Portfolio")
+    }
+})
 
 router.get('/performance-graph', async (req, res) => {
     // returns overall percentage of change over specified period of time. /overall-performance?days=2
@@ -90,27 +106,6 @@ router.get('/performance-graph', async (req, res) => {
     //     res.send(err)
     // }
     res.send("i m alive")
-})
-
-
-
-// will send performance in percentage of any specific portfolio over 'x' amount of days. /213241421?days=2
-router.get('/portfolio/:portfolioId', async (req, res) => {
-    try {
-        let portfolio = await req.context.models.Portfolio.findById(req.params.portfolioId);
-        let days = req.query.days // req query days count
-        const range = portfolio.history.length >= days && days != 0 ? days : portfolio.history.length
-        let dayRange = portfolio.history.slice(0, range)
-
-        // Calculate differences and sum percentage changed.
-        let difference = dayRange[0].value - dayRange.slice(-1)[0].value
-        let percent = (difference / dayRange[0].value) * 100 // if its negative - its a increase; if its positive - its a decrease.
-        let percentChange = percent < 0 ? Math.abs(percent) : -Math.abs(percent) // invert negative and positive signs. 20% = increase, -20% = decrease
-        res.send(`${percentChange}`)
-
-    } catch (err) {
-        res.send("Can't Find Portfolio")
-    }
 })
 
 // sends history of any portfolio by the id.
