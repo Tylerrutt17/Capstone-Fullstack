@@ -15,7 +15,7 @@ const scheduledUpdate = async () => {
         // await updateStockPrices() // Pull down latest prices and update prices table
         await updatePortfolioStocks() // Update all stock prices/values/allocations and history/currentValue in every portfolio
         await updateUserTotalFunds() // Recalculate each users total funds
-        // await rebalanceAllPortfolios()
+        await rebalanceAllPortfolios()
         await updateFollowerPortfolios() // automate allocation of follower portfolios
         console.log("Completed portfolio rebalance")
     });
