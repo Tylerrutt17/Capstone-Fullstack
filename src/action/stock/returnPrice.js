@@ -21,7 +21,8 @@ fetchPrice("AAPL", async (response) => {
 })
 
 const getPrice = (open) => {
-    return open
+    // return open
+    return 4
 }   
 
 module.exports = {

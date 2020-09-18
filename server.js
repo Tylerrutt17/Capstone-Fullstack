@@ -11,10 +11,11 @@ const passport = require("passport");
 const bcrypt = require("bcryptjs");
 var schedule = require('node-schedule') // responsible for the timing in which rebalancing of stocks would take place each day. (9:30am est)
 // functions
-const test = require('./src/action/portfolio/updatePortfolioStocks')
+// const test = require('./src/action/portfolio/updatePortfolioStocks').test
 const fetchPrice = require('./src/action/stock/returnPrice').fetchPrice
 const addStock = require('./src/action/prices/seedPrices').addStock
 const seedPrices = require('./src/action/prices/seedPrices').seedPrices
+const scheduledUpdate = require('./src/action/scheduledUpdate')
 
 // db
 const {connectDb, models} = require('./src/models/index.js');
@@ -114,48 +115,71 @@ connectDb().then(async () => {
 //       await user2.save();
 // }
 
-// seedPrices()
-
-const createPortfolioAndUser = async () => {
+const createPortfoliosAndUsers = async () => {
     await Promise.all([
         models.User.deleteMany({}),
         models.Portfolio.deleteMany({})
     ])
     let pswrd = await bcrypt.hash('1234', 10)
-    console.log(pswrd)
     const user1 = new models.User({
         name: 'David',
         email: 'd@gmail.com',
         password: pswrd,
         leader: true,
         followers: 0,
-        totalFunds: 1500,
+        totalFunds: 3179.99,
         portfolios: []
       });
       await user1.save();
+    const user2 = new models.User({
+        name: 'Rashad',
+        email: 'r@gmail.com',
+        password: pswrd,
+        leader: true,
+        followers: 0,
+        totalFunds: 1000,
+        portfolios: []
+    });
+    await user2.save();
     
     const portfolio = new models.Portfolio({
-        name: 'My new portfolio',
+        name: 'Davids portfolio',
         active: true,
         usableFunds: 0,
-        startingValue: 1000,
-        currentValue: 1500,
-        currentAllcoation: 100,
-        tickers: [{symbol : 'TSLA', allocation: 66.6, currValue: 1000, units: 10}, {symbol : 'AMZN', allocation: 33.3, currValue: 500, units: 12}],
-        history: [{date : new Date("2016-05-18T16:00:00Z"), value: 1000}, {date : new Date("2016-05-19T16:00:00Z"), value: 1500}],
+        startingValue: 1500,
+        currentValue: 3179.99,
+        tickers: [{symbol : 'TSLA', allocation: 0, desiredAllocation: 50, currValue: 0, units: 0}, {symbol : 'AMZN', allocation: 100, desiredAllocation: 50, currValue: 3179.99, units: 1}],
+        followers: [],
+        history: [{date : new Date("2016-05-18T16:00:00Z"), value: 1500}, {date : new Date("2016-05-19T16:00:00Z"), value: 3179.99}],
         user: user1.id,
       });
     await portfolio.save()
 
+    const portfolio2 = new models.Portfolio({
+        name: 'Rashads portfolio',
+        active: true,
+        usableFunds: 500,
+        startingValue: 1000,
+        currentValue: 1000,
+        tickers: [{symbol : 'AAPL', allocation: 50, desiredAllocation: 50, currValue: 500, units: 4.5314482509}],
+        followers: [],
+        history: [{date : new Date("2016-05-18T16:00:00Z"), value: 1000}, {date : new Date("2016-05-19T16:00:00Z"), value: 1000}],
+        user: user2.id,
+      });
+    await portfolio2.save()
+
     await models.User.updateOne({ _id: user1._id },
         { portfolios: portfolio._id })
-
-    let p = await models.Portfolio.findById(portfolio._id);
-    let currentTickers = p.tickers
+    await models.User.updateOne({ _id: user2._id },
+        { portfolios: portfolio2._id })
     await models.Portfolio.updateOne({ _id: portfolio._id },
-        { tickers: [...currentTickers.filter(t=>t.symbol!="TSLA"),{symbol : 'TSLA', allocation: 66.6, currValue: 1000, units: 20}]})
+        { followers: portfolio2._id })
+
+    // let p = await models.Portfolio.findById(portfolio._id);
+    // let currentTickers = p.tickers
+    // await models.Portfolio.updateOne({ _id: portfolio._id },
+    //     { tickers: [...currentTickers.filter(t=>t.symbol!="TSLA"),{symbol : 'TSLA', allocation: 66.6, desiredAllocation:66.6, currValue: 1000, units: 20}]})
 }
-// createPortfolioAndUser()
 
 
 const createUser = async () => {
@@ -172,54 +196,6 @@ const createUser = async () => {
 }
 // createUser()
 
-const createUsersWithPortfolio = async () => {
-   
-    const portfolio1 = new models.Portfolio({
-      name: 'My first portfolio',
-      funds: 1000,
-      percent_allocated: 90,
-      active: true,
-      asset_num: 3,
-      lastRebalance: new Date(),
-      user: user1.id,
-    });
-   
-    const stock1 = new models.Stock({
-      stock: 'AAPl',
-      avg_price: 250,
-      volume: 2,
-      current_value: 250,
-      allocation: 50,
-      user: user1.id,
-      portfolio: portfolio1.id
-    });
-
-    const stock2 = new models.Stock({
-        stock: 'TSLA',
-        avg_price: 100,
-        volume: 2,
-        current_value: 200,
-        allocation: 20,
-        user: user1.id,
-        portfolio: portfolio1.id
-      });
-   
-    const stock3 = new models.Stock({
-        stock: 'PRPL',
-        avg_price: 200,
-        volume: 1,
-        current_value: 200,
-        allocation: 20,
-        user: user1.id,
-        portfolio: portfolio1.id
-    });
-   
-    await user1.save();
-    await portfolio1.save();
-    await stock1.save();
-    await stock2.save();
-    await stock3.save();
-  };
 // installed packages
 // bcryptjs: used to hash passwords before we store them in our database
 // body-parser: used to parse incoming request bodies in a middleware
@@ -244,5 +220,6 @@ const createUsersWithPortfolio = async () => {
 //     }
 
 
-
+createPortfoliosAndUsers()
+scheduledUpdate()
 // test()

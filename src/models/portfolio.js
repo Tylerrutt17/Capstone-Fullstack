@@ -23,9 +23,14 @@ let portfolioSchema = new mongoose.Schema({
     tickers: [{
         symbol: String,
         allocation: Number,
+        desiredAllocation: Number,
         currValue: Number,
         units: Number,
     }],
+    followers: { 
+        type: Array,
+        required: true,
+    },
     history: [{
         date: Date,
         value: Number

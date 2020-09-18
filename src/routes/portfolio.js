@@ -168,3 +168,31 @@ router.get('/hello', (req, res) => {
  
 // export default router;
 module.exports = router;
+
+// name: req.body.name
+// active: req.body.active
+// usableFunds: req.body.usableFunds
+// startingValue: { // What
+
+// },
+// currentValue: { // changes of all of the stocks accounted for. Sum of all tickerCurrValues
+//   type: Number,
+//   required: true
+// },
+// // Array of all the tickers: [{symbol : 'TSLA', allocation: 21, currValue: 20}, {symbol : 'AMZN', allocation: 79, currValue: 80}]
+// tickers: [{
+//   symbol: String,
+//   allocation: Number,
+//   desiredAllocation: Number,
+//   currValue: Number,
+//   units: Number,
+// }],
+// followers: { 
+//   type: Array,
+//   required: true,
+// },
+// history: [{
+//   date: Date,
+//   value: Number
+// }],
+// user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
