@@ -12,9 +12,13 @@ const updateAllPortfolios = async () => {
     // Observe Each Portfolio Object
     const docs = await models.Portfolio.find()
     const prices = await models.Prices.find()
-    docs.forEach( async (portfolio)=> {
+    // docs.forEach( async (portfolio)=> {
+    //     await updateSpecificPortfolio(portfolio, prices)
+    // })
+    for (let i = 0; i < docs.length; i++) {
+        let portfolio = docs[i]
         await updateSpecificPortfolio(portfolio, prices)
-    })
+    }
 }
 const updateSpecificPortfolio = async (p, prices) => {
 // for each ticker in the portfolio:
